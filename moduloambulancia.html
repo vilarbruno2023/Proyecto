@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang='es'>
+   <head>
+       <meta charset='UTF-8'>
+       <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+       <title>Ambulancia</title>
+           <link rel="stylesheet" href="estilos.css">
+   </head>
+
+   <body>
+        <header>
+        <div class="hizq">
+            <div>
+                <h3>S.I.G.S.M.</h3>
+                <p>Cerrar sesion</p>
+            </div>
+        </div>
+
+
+        <div class="hder">
+            <button>Uso Interno</button>
+        </div>
+    </header>
+    <aside>
+        <div class="aizq">
+            <div class="">
+                <button>Indicacones</button>
+            </div>
+        </div>
+
+
+        <div class="ader">
+            <div>
+                <p>Documentacion</p>
+            </div>
+
+
+            <div class="">
+                <button>Cerrar sesion</button>
+            </div>
+        </div>
+    </aside>
+    <main>
+    <div class="centro">
+            <div class="carriba">
+        <div>
+          <div class="panel-titulo">Crear nuevo traslado</div>
+          <div class="indicacion">El recorrido se resume unicamente por origen y destino.</div>
+        </div>
+            </div>
+        <div class="cader">
+        <button>Crear traslado</button>
+</div>
+
+            <label>Paciente</label>
+            <input placeholder="Nombre o identificador">
+          </div>
+          <div class="form-grupo">
+            <label>Prioridad</label>
+            <select><option>Normal</option><option>Urgente</option><option>Critica</option></select>
+          </div>
+          <div class="form-grupo">
+            <label>Origen</label>
+            <input value="Hospital de Clinicas - Emergencia">
+          </div>
+          <div class="form-grupo">
+            <label>Destino</label>
+            <input value="CTI - Hospital Pasteur">
+          </div>
+          <div class="form-grupo">
+            <label>Vehiculo</label>
+            <select><option>AMB-01</option><option>AMB-02</option><option>AMB-03</option></select>
+          </div>
+          <div class="form-grupo">
+            <label>Equipo asignado</label>
+            <input value="Chofer + enfermero">
+          </div>
+          <div class="form-opcion zona-roja">
+            <input id="zona-roja" type="checkbox">
+            <div>
+              <label for="zona-roja">Marcar como zona roja</label>
+              <div class="indicacion">Activa protocolos internos de seguridad y visibiliza la condicion en la gestion del traslado.</div>
+            </div>
+          </div>
+          <div class="form-grupo form-observacion">
+            <label>Observaciones</label>
+            <textarea rows="3" placeholder="Datos clinicos, coordinacion o indicaciones del equipo"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    </main>
+
+
+    <footer>
+        <div class="contf">
+            <div class="fsup">
+      <h3>Traslados activos</h3>
+            </div>
+
+
+
+            <div class="finf"> 
+          <div><div class="ruta-etiqueta">Origen</div><div class="ruta-valor">Hospital de Clinicas - Emergencia</div></div>
+          <div class="ruta-flecha">-></div>
+          <div><div class="ruta-etiqueta">Destino</div><div class="ruta-valor">CTI - Hospital Pasteur</div></div>
+        </div>
+      </div>
+      <div class="table-traslados">
+        <table>
+          <thead><tr><th>ID</th><th>Paciente</th><th>Origen</th><th>Destino</th><th>Condicion</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody>
+            <tr><td>TRL-0042</td><td>Paciente reservado</td><td>Emergencia HC</td><td>Hospital Pasteur</td><td><span class="sub-rojo">Zona roja</span></td><td><span class="sub-azul">En curso</span></td><td><button>Gestionar</button></td></tr>
+            <tr><td>TRL-0041</td><td>Paciente reservado</td><td>Sala 12</td><td>Imagenologia</td><td><span class="sub-verde">Normal</span></td><td><span class="sub-amarillo">Programado</span></td><td><button>Gestionar</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </main>
+</body>
+</html>
