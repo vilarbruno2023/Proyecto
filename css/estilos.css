@@ -172,10 +172,34 @@ footer{
     border-radius: 7px;
 }
 
-.fsup{
+.finf{
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding-left: 20px;
 }
-
+  .zona-roja { 
+    background: #FDECEA; 
+    border: 1px solid #f3b8b2; 
+    padding: 12px; 
+    border-radius: 8px; 
+    display: flex;
+    grid-column: 1 / -1;  
+    align-items: center;
+  }
+  .sub-azul { 
+    background: #EBF2FB; 
+    color: #1A4B7A; 
+}
+  .sub-verde { 
+    background: #E8F5EE; 
+    color: #2E8B57; 
+}
+  .sub-rojo { 
+    background: #FDECEA; 
+    color: #C0392B; 
+}
+  .sub-amarillo { 
+    background: #faecbb; 
+    color: #7D5A0A; 
+}
