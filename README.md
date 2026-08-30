@@ -1,7 +1,5 @@
 # Proyecto
-Proyecto hecho por: Bruno Vilar, Dante Laureiro, Inti Peña y Federico González
-
-Proyecto hecho por: Bruno Vilar, Dante Laureiro, Inti Peña y Federico González
+Proyecto hecho por: Bruno Vilar, Dante Laureiro, Inti Peña, Federico González y Bruno Ferreira
 
 Instalación entorno de desarrollo:
 
