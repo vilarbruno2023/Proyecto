@@ -6,7 +6,7 @@ body{
                          'm m m m';
     grid-template-columns: auto auto auto auto;
     grid-template-rows: auto auto auto auto;
-    background-color:  #F5F7FA;
+    background-color:  #c3c3c3;
     margin: 0;
     height: 97vh;
 }
@@ -16,7 +16,7 @@ body{
 header{
     grid-area: h;
     display: flex;
-    background-color: rgba(0, 61, 166, 0.878);
+    background-color: rgba(17, 83, 198, 0.878);
 }
 
 .hizq{
@@ -43,7 +43,7 @@ aside{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #FFFFFF;
+    background-color: #efefef;
 }
 
 
@@ -52,25 +52,23 @@ aside{
 main{
     grid-area: m;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .centro{
-    width: 60%;
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto auto;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 90%;
     height: 90%;
-    
-    gap: 10px;
+    gap: 30px;
 }
 
 .cartas{
     display: flex;
     flex-direction: column;
-    background-color: #FFFFFF;
+    background-color: #efefef;
     border-radius: 7px;
 }
 
@@ -142,7 +140,7 @@ footer{
     color: #7D5A0A; 
 }
 
-@media(min-widith: 1024px){
+@media(min-width: 1024px){
     body{
     display: grid;
     grid-template-areas: 'h h h h'
@@ -151,7 +149,7 @@ footer{
                          'm m m m';
     grid-template-columns: auto auto auto auto;
     grid-template-rows: auto auto auto auto;
-    background-color:  #F5F7FA;
+    background-color:  #c3c3c3;
     margin: 0;
     height: 97vh;
 }
@@ -161,7 +159,7 @@ footer{
 header{
     grid-area: h;
     display: flex;
-    background-color: rgba(0, 61, 166, 0.878);
+    background-color: rgba(17, 83, 198, 0.878);
 }
 
 .hizq{
@@ -188,7 +186,7 @@ aside{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #FFFFFF;
+    background-color: #efefef;
 }
 
 
@@ -197,25 +195,25 @@ aside{
 main{
     grid-area: m;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .centro{
-    width: 60%;
     display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    width: 90%;
     height: 90%;
-    
-    gap: 10px;
+    gap: 30px;
 }
 
 .cartas{
     display: flex;
     flex-direction: column;
-    background-color: #FFFFFF;
+    background-color: #efefef;
+   
+    gap: 7px;
     border-radius: 7px;
 }
 

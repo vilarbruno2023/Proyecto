@@ -1,8 +1,9 @@
 <?php
 session_start();
+
+$_SESSION = [];
+
 session_destroy();
-?>
-<script>
-    localStorage.removeItem('sigsm_usuario');
-    window.location.href = 'inicio.html';
-</script>
+
+header("Content-Type: application/json");
+echo json_encode(['logout' => true, 'redirect' => '../htmls/inicio.html']);

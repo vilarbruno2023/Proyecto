@@ -6,9 +6,11 @@ body{
                          'f f f f';
     grid-template-columns: auto auto auto auto;
     grid-template-rows: auto auto auto auto;
-    background-color:  #F5F7FA;
+    background-color: #f8f9fa;
     margin: 0;
     height: 97vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2c3e50;
 }
 
 
@@ -16,7 +18,8 @@ body{
 header{
     grid-area: h;
     display: flex;
-    background-color: rgba(0, 61, 166, 0.878);
+    background: linear-gradient(135deg, #1e5a96 0%, #2d7ac7 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .hizq{
@@ -72,7 +75,8 @@ main{
     width: 60%;
     background-color: #FFFFFF;
     height: 90%;
-    border-radius: 7px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .carriba{
@@ -169,7 +173,8 @@ footer{
     background-color: #FFFFFF;
     width: 60%;
     height: 90%;
-    border-radius: 7px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .finf{
@@ -179,27 +184,62 @@ footer{
     padding-left: 20px;
 }
   .zona-roja { 
-    background: #FDECEA; 
-    border: 1px solid #f3b8b2; 
+    background: #fee5e3; 
+    border: 2px solid #ef5350; 
     padding: 12px; 
     border-radius: 8px; 
     display: flex;
     grid-column: 1 / -1;  
     align-items: center;
+    color: #c62828;
   }
   .sub-azul { 
-    background: #EBF2FB; 
-    color: #1A4B7A; 
+    background: #e3f2fd; 
+    color: #1565c0; 
 }
   .sub-verde { 
-    background: #E8F5EE; 
-    color: #2E8B57; 
+    background: #e8f5e9; 
+    color: #2e7d32; 
 }
   .sub-rojo { 
-    background: #FDECEA; 
-    color: #C0392B; 
+    background: #fee5e3; 
+    color: #c62828; 
 }
   .sub-amarillo { 
-    background: #faecbb; 
-    color: #7D5A0A; 
+    background: #fff9c4; 
+    color: #f57f17; 
+}
+
+#tablaDocumentos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+#tablaDocumentos thead {
+    background: linear-gradient(135deg, #1e5a96 0%, #2d7ac7 100%);
+    color: white;
+}
+
+
+#tablaDocumentos th,
+#tablaDocumentos td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+#tablaDocumentos th {
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+#tablaDocumentos tbody tr:hover {
+    background-color: #f5f5f5;
+    transition: background-color 0.2s ease;
+}
+
+#tablaDocumentos td:nth-child(4) {
+    max-width: 200px;
+    word-wrap: break-word;
 }

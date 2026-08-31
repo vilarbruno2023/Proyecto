@@ -1,43 +1,18 @@
-function inicioSesion (){
 
-    const formulario = document.querySelector('#ini');
+document.addEventListener('DOMContentLoaded', function() {
+    const error = new URLSearchParams(window.location.search);
 
-    formulario.addEventListener("submit", async (event) => {
-
-    event.preventDefault();
-
-    const usuario = document.querySelector("#nombreUsuario").value;
-    const contra = document.querySelector("contresañe").value;
-
-    const respuesta = await fetch("http://localhost:3000/inicio", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            usuario,
-            contra
-        })
-    });
-
-    const datos = await respuesta.json();
-
-    if (respuesta.ok) {
-
-        // Guardamos solamente la sesión/token
-        localStorage.setItem("token", datos.token);
-
-        // Podemos guardar datos no sensibles
-        localStorage.setItem("nombre", datos.usuario.nombre);
-
-        window.location.href = "inicio.html";
-
-    } else {
-
-        document.getElementById("mensaje").textContent =
-            datos.mensaje;
+    if (error.get('error') === '1') {
+        alert("Usuario o contraseña incorrectos.");
     }
-    }); 
-}
 
-inicioSesion();
+    const formLogin = document.querySelector('form');
+    if (formLogin) {
+        formLogin.addEventListener('submit', function() {
+            const inputUsuario = document.querySelector('input[name="usuario"]');
+            if (inputUsuario && inputUsuario.value) {
+                localStorage.setItem('usuario', inputUsuario.value);
+            }
+        });
+    }
+});

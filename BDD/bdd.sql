@@ -5,7 +5,7 @@ USE proyecto;
 CREATE TABLE funcionario(
 	idUsuario int PRIMARY KEY AUTO_INCREMENT,
     nombreUsuario VARCHAR(50) NOT null,
-    contraseña varchar(50) NOT null,
+    contrasenia varchar(50) NOT null,
     rol varchar(20) NOT NULL DEFAULT 'usuario'
 );
 
@@ -21,6 +21,7 @@ CREATE TABLE documento(
     titulo varchar(100) NOT null,
     archivo varchar(50) NOT null,
     codigoQR varchar(200) NOT null UNIQUE,
+    estado varchar(20) NOT null DEFAULT 'Activo',
     
     FOREIGN KEY (idUsuario) REFERENCES funcionario(idUsuario),
     FOREIGN KEY (idCategoria) REFERENCES categoria(idCategoria)
