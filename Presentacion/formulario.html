@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="form.css">
+    <title>Encuesta</title>
+</head>
+<body>
+    <form action="../Negocio/guardar_encuesta.php" method="POST">
+        <label>Nivel de satisfacción respecto a la página: </label>
+        <select name="satisfaccion" required>
+            <option value="">-- Selecciona una opción --</option>
+            <option value="Insatisfecho">Insatisfecho</option>
+            <option value="Satisfecho">Satisfecho</option>
+            <option value="Muy satisfecho">Muy satisfecho</option>
+        </select>
+        <label>Comentarios adicionales: </label><input type="text" name="comentarios" placeholder="Escribe tus comentarios aquí"></input>
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
