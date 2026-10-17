@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="auth.js"></script>
-    <link rel="stylesheet" href="estilosusu.css">
-    <title>Usuarios</title>
+    <link rel="stylesheet" href="estilos.css">
+    <title>SIGSM - Indicaciones vigentes</title>
 </head>
 <body>
     <header>
@@ -16,40 +16,37 @@
         </div>
 
         <div class="hder">
-            <button id="btnLogout">Cerrar Sesión</button>
-            <a href="./inicio.html"><button>Uso Interno</button></a>
+            <a class="boton-enlace" href="./inicio.html">Uso interno</a>
+            <button id="btnLogout" type="button">Cerrar sesión</button>
         </div>
     </header>
 
-    <aside>
-        <div class="acentro">
-            <div>
-                Indicaciones para pacientes
+    <main class="vista-publica">
+        <section class="centro centro-publico">
+            <div class="carriba">
+                <div class="caizq">
+                    <div>
+                        <h2>Indicaciones para pacientes</h2>
+                        <p>Consultá y abrí los documentos PDF de indicaciones vigentes.</p>
+                    </div>
+                </div>
             </div>
 
-            <h2>Documentos de indicaciones disponibles</h2>
-
-            <p>Esta página presenta únicamente las indicaciones vigentes para consulta. El acceso a funciones administrativas queda reservado al personal autorizado desde Uso interno.</p>
-
-            <div>
-                <input type="text" placeholder="Buscar indicaciones">
-
-                <select name="" id="">
-                    <option value="">Todas las areas</option>
-                    <option value="">Salud Reproductiva</option>
-                    <option value="">Cardiología</option>
-                    <option value="">Imagenología</option>
-                    <option value="">Nefrologia</option>
-                    <option value="">Prevención</option>
+            <div class="filtros" aria-label="Filtros de indicaciones">
+                <input type="search" id="buscarIndicacion" placeholder="Buscar indicaciones" aria-label="Buscar indicaciones">
+                <select id="filtroArea" aria-label="Filtrar por área">
+                    <option value="">Todas las áreas</option>
+                    <option value="Salud Reproductiva">Salud Reproductiva</option>
+                    <option value="Cardiología">Cardiología</option>
+                    <option value="Imagenología">Imagenología</option>
+                    <option value="Nefrología">Nefrología</option>
+                    <option value="Prevención">Prevención</option>
                 </select>
             </div>
-        </div>
-    </aside>
 
-    <main>
-        <div class="centro">
-            
-        </div>
+            <p id="mensajeIndicaciones" class="mensaje-listado" aria-live="polite"></p>
+            <div class="lista-tarjetas" id="listaIndicaciones"></div>
+        </section>
     </main>
 
     <script src="logout.js"></script>

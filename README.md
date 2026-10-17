@@ -14,3 +14,11 @@ Todo lo que tiene que ver con uso o manipulación de datos o base de datos, se r
 
 La estructura del proyecto se resume en Proyecto/Datos, Documentos, Negocio, Presentacion/
 Dentro de cada una de las mismas se encuentran archivos dependiendo de su función.
+
+## Vista pública de indicaciones
+
+- `Presentacion/index.html` reutiliza `Presentacion/estilos.css`, compartido con la vista administrativa.
+- `Negocio/obtener_documentos_pacientes.php` devuelve únicamente documentos cuyo estado sea `Vigente`.
+- La vista pública no muestra una columna ni etiqueta de estado; muestra el título, resumen, área y enlace al PDF.
+- `Presentacion/listar_tarjetas.js` filtra las tarjetas por texto y área sin recargar la página.
+- `Presentacion/estilosusu.css` se eliminó porque duplicaba estilos y ya no se utiliza.
