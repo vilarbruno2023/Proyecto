@@ -43,7 +43,7 @@ if (!move_uploaded_file($archivo['tmp_name'], $rutaDestino)) {
     exit;
 }
 
-$stmt = $conexion->prepare("INSERT INTO documento (idUsuario, idCategoria, titulo, resumen, estado, archivo, codigoQR) VALUES (:idUsuario, :idCategoria, :titulo, :resumen, :estado, :archivo, :codigoQR)");
+$stmt = $conexion->prepare("INSERT INTO documento (idUsuario, idCategoria, titulo, resumen, estado, archivo) VALUES (:idUsuario, :idCategoria, :titulo, :resumen, :estado, :archivo)");
 
 $stmt->execute([
     'idUsuario' => (int) $_SESSION['idUsuario'],
@@ -51,8 +51,7 @@ $stmt->execute([
     'titulo' => $titulo,
     'resumen' => $resumen,
     'estado' => $estado,
-    'archivo' => $nombreArchivo,
-    'codigoQR' => 'QR_' . uniqid()
+    'archivo' => $nombreArchivo
 ]);
 
 header("Location: ../Presentacion/SIGSM.html?ok=1");

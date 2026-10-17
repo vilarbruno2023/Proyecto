@@ -21,7 +21,6 @@ CREATE TABLE documento(
     titulo varchar(100) NOT null,
     resumen TEXT NULL,
     archivo varchar(50) NOT null,
-    codigoQR varchar(200) NOT null UNIQUE,
     estado varchar(20) NOT null DEFAULT 'Activo',
     
     FOREIGN KEY (idUsuario) REFERENCES funcionario(idUsuario),

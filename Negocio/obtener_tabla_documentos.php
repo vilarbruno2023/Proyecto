@@ -10,7 +10,7 @@ $sql = "SELECT d.*, c.nombreCategoria
 $documentos = $conexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
 if (empty($documentos)) {
-    echo '<tr><td colspan="6">No hay documentos registrados.</td></tr>';
+    echo '<tr><td colspan="5">No hay documentos registrados.</td></tr>';
     exit;
 }
 
@@ -24,9 +24,8 @@ foreach ($documentos as $doc) {
         <td>' . htmlspecialchars($doc['nombreCategoria']) . '</td>
         <td>' . htmlspecialchars($doc['estado']) . '</td>
         <td>' . htmlspecialchars($doc['resumen']) . '</td>
-        <td>' . htmlspecialchars($doc['codigoQR']) . '</td>
         <td>
-            <a href="' . $rutaArchivo . '" target="_blank" rel="noopener" download>Ver archivo</a>
+            <a href="' . $rutaArchivo . '" target="_blank" rel="noopener">Ver PDF</a>
         </td>
     </tr>';
 }
