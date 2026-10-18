@@ -3,37 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="auth.js"></script>
     <link rel="stylesheet" href="estilos.css">
-    <title>SIGSM - Indicaciones vigentes</title>
+    <title>SIGSM | Indicaciones vigentes</title>
 </head>
 <body>
     <header>
-        <div class="hizq">
-            <div>
-                <h3>S.I.G.S.M.</h3>
-            </div>
-        </div>
-
+        <div class="hizq"><h3>S.I.G.S.M.</h3></div>
         <div class="hder">
-            <a class="boton-enlace" href="./inicio.html">Uso interno</a>
-            <button id="btnLogout" type="button">Cerrar sesión</button>
+            <a class="boton-enlace" href="inicio.html">Uso interno</a>
         </div>
     </header>
 
-    <main class="vista-publica">
-        <section class="centro centro-publico">
-            <div class="carriba">
-                <div class="caizq">
-                    <div>
-                        <h2>Indicaciones para pacientes</h2>
-                        <p>Consultá y abrí los documentos PDF de indicaciones vigentes.</p>
-                    </div>
-                </div>
+    <aside>
+        <div class="filtros-publicos">
+            <div>
+                <h2>Indicaciones vigentes</h2>
+                <p>Consultá y descargá las indicaciones disponibles.</p>
             </div>
-
-            <div class="filtros" aria-label="Filtros de indicaciones">
-                <input type="search" id="buscarIndicacion" placeholder="Buscar indicaciones" aria-label="Buscar indicaciones">
+            <div class="controles-filtro">
+                <input type="text" id="buscarIndicacion" placeholder="Buscar indicaciones" aria-label="Buscar indicaciones">
                 <select id="filtroArea" aria-label="Filtrar por área">
                     <option value="">Todas las áreas</option>
                     <option value="Salud Reproductiva">Salud Reproductiva</option>
@@ -43,13 +31,33 @@
                     <option value="Prevención">Prevención</option>
                 </select>
             </div>
+        </div>
+    </aside>
 
-            <p id="mensajeIndicaciones" class="mensaje-listado" aria-live="polite"></p>
-            <div class="lista-tarjetas" id="listaIndicaciones"></div>
-        </section>
+    <main>
+        <div class="centro centro-publico">
+            <div class="contf tabla-publica-contenedor">
+                <div class="fsup"><h3>Listado de indicaciones</h3></div>
+                <div class="tabla-desplazable">
+                    <table id="tablaIndicacionesPublicas">
+                        <thead>
+                            <tr>
+                                <th>TÍTULO</th>
+                                <th>CATEGORÍA</th>
+                                <th>RESUMEN</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoIndicacionesPublicas">
+                            <tr><td colspan="4">Cargando indicaciones...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p id="mensajeSinResultados" class="mensaje-vacio" hidden>No hay indicaciones que coincidan con la búsqueda.</p>
+            </div>
+        </div>
     </main>
 
-    <script src="logout.js"></script>
-    <script src="listar_tarjetas.js"></script>
+    <script src="cargar_indicaciones_publicas.js"></script>
 </body>
 </html>

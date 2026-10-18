@@ -1,24 +1,24 @@
-# Proyecto
-Proyecto hecho por: Dante Laureiro, Inti Peña, Federico González, Bruno Ferreira y Bruno Vilar.
+# SIGSM — Sistema de indicaciones
 
-El proyecto SIGSM se basa en el desarrollo de un software administrativo que permita la digitalización de documentos por parte del hospital de clínicas. Como objetivo secundario se debera permitir seguir la trazabilidad de las ambulancias.
+## Estructura principal
 
-Para este proyecto se utilizó: una base de datos, el lenguaje de PHP, J.S, CSS y HTML. Para que este proyecto funcione de manera adecuada se debera disponer de xamppcontrolpanel con apache y mysql instalado. Además es necesario el uso de phpmyadmin para la conexión con la base de datos y la manipulación de la misma.
+- `Presentacion/index.html`: página pública, sin validación de sesión. Muestra únicamente indicaciones vigentes y permite filtrar por texto y área.
+- `Presentacion/inicio.html`: formulario de inicio de sesión para acceder al área interna.
+- `Presentacion/SIGSM.html`: panel administrativo protegido; requiere una sesión válida con rol `admin`.
+- `Presentacion/estilos.css`: hoja de estilos compartida por la página pública y el panel administrativo.
+- `Presentacion/cargar_indicaciones_publicas.js`: carga y filtra el listado público.
+- `Presentacion/cargar_tabla_indicaciones.js`: carga la tabla administrativa.
+- `Negocio/obtener_indicaciones_vigentes.php`: consulta exclusivamente las indicaciones con estado `Vigente`.
+- `Negocio/obtener_tabla_indicaciones.php`: consulta la tabla completa para administración.
+- `Negocio/verificar_sesion.php`: devuelve el estado de la sesión para proteger el panel administrativo.
+- `Datos/conexion.php`: conexión PDO a MariaDB.
+- `Datos/bdd.sql`: esquema para crear una base de datos nueva, sin campos QR.
+- `Datos/migracion_eliminar_qr.sql`: migración para bases existentes que aún tienen la columna `codigoQR`.
 
-Para utilizar el proyecto es muy simple, del lado de la instalación, simplemente deberemos utilizar la consola (en caso de linux) o git bash, que interpreta comandos de la consola de linux, para poder descargalo del github a través del comando "git clone "http://unlinkrandom.git/" ", después se utilizara "cd "nombredelarchivocopiado" " para entrar a la carpeta que contiene los archivs para ejecutar el software. 
-El personal autorizado puede iniciar sesión y administrar las indicaciones desde "SIGSM.html". Los pacientes pueden consultar las indicaciones disponibles y abrir sus archivos PDF desde la página principal.
+## Acceso
 
-Administrador: nombre del usuario, contraseña.
+La página `index.html` es pública: no ejecuta comprobaciones de sesión ni exige iniciar sesión. El enlace **Uso interno** lleva al formulario de acceso. Al abrir directamente `SIGSM.html`, el sistema verifica la sesión en el servidor y redirige al inicio de sesión si no hay una sesión válida o si el usuario no tiene rol administrativo.
 
-Todo lo que tiene que ver con uso o manipulación de datos o base de datos, se resume en cambios directos a la misma BDD o al archivo "consexion.php" donde se cambiaran los datos como serian, el host, el n° de puerto que utiliza el servicio de sql, el nombre de la BDD, el nombre del usuario que manipula la BDD y la contraseña que manipula la BDD.
+## Base de datos
 
-La estructura del proyecto se resume en Proyecto/Datos, Documentos, Negocio, Presentacion/
-Dentro de cada una de las mismas se encuentran archivos dependiendo de su función.
-
-## Vista pública de indicaciones
-
-- `Presentacion/index.html` reutiliza `Presentacion/estilos.css`, compartido con la vista administrativa.
-- `Negocio/obtener_documentos_pacientes.php` devuelve únicamente documentos cuyo estado sea `Vigente`.
-- La vista pública no muestra una columna ni etiqueta de estado; muestra el título, resumen, área y enlace al PDF.
-- `Presentacion/listar_tarjetas.js` filtra las tarjetas por texto y área sin recargar la página.
-- `Presentacion/estilosusu.css` se eliminó porque duplicaba estilos y ya no se utiliza.
+Configurá las credenciales de MariaDB en `Datos/conexion.php`. Para una base ya existente que aún contiene la columna QR, ejecutá una sola vez `Datos/migracion_eliminar_qr.sql` desde phpMyAdmin.
