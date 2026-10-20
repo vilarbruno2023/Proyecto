@@ -1,9 +1,13 @@
 <!DOCTYPE html>
+<?php
+session_start();
+if (!isset($_SESSION['idUsuario']) || strtolower((string)($_SESSION['rol'] ?? '')) !== 'admin') { header('Location: inicio.html'); exit; }
+?>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="verificar_acceso_administrativo.js"></script>
+    <script src=""></script>
     <link rel="stylesheet" href="estilos.css">
     <title>Proyecto SIGSM</title>
 </head>
@@ -15,6 +19,7 @@
             </div>
         </div>
     </header>
+    <nav class="controles-admin" style="display:flex;gap:10px;flex-wrap:wrap;padding:12px 20px"><a class="boton-enlace" href="administrar_encuestas.php">Encuestas y resultados</a></nav>
 
     <aside>
         <div class="ader">

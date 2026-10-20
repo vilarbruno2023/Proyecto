@@ -28,8 +28,10 @@ CREATE TABLE documento(
 );
 
 CREATE TABLE encuesta_respuesta(
-    idEncuestaRespuesta INT PRIMARY KEY AUTO_INCREMENT,
-    satisfaccion VARCHAR(30) NOT NULL,
-    comentarios TEXT NULL,
-    fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    fechaEncuesta DATETIME(6) NOT NULL PRIMARY KEY DEFAULT CURRENT_TIMESTAMP(6),
+    tipoEncuesta VARCHAR(30) NOT NULL,
+    segmento VARCHAR(50) NOT NULL,
+    satisfaccion TINYINT UNSIGNED NOT NULL,
+    INDEX idx_encuesta_tipo_segmento_fecha (tipoEncuesta, segmento, fechaEncuesta),
+    CONSTRAINT chk_encuesta_satisfaccion CHECK (satisfaccion BETWEEN 1 AND 5)
 );

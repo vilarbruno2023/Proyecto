@@ -1,24 +1,20 @@
-# SIGSM — Sistema de indicaciones
+# SIGSM — versión con encuestas simplificadas
 
-## Estructura principal
+## Requisitos
+- XAMPP con Apache, PHP y MariaDB/MySQL.
+- Copiar `Proyecto` a `htdocs`.
+- Ajustar `Datos/conexion.php` si el usuario o contraseña de MariaDB difieren.
+- Para una instalación nueva, importar `Datos/bdd.sql` en phpMyAdmin.
 
-- `Presentacion/index.html`: página pública, sin validación de sesión. Muestra únicamente indicaciones vigentes y permite filtrar por texto y área.
-- `Presentacion/inicio.html`: formulario de inicio de sesión para acceder al área interna.
-- `Presentacion/SIGSM.html`: panel administrativo protegido; requiere una sesión válida con rol `admin`.
-- `Presentacion/estilos.css`: hoja de estilos compartida por la página pública y el panel administrativo.
-- `Presentacion/cargar_indicaciones_publicas.js`: carga y filtra el listado público.
-- `Presentacion/cargar_tabla_indicaciones.js`: carga la tabla administrativa.
-- `Negocio/obtener_indicaciones_vigentes.php`: consulta exclusivamente las indicaciones con estado `Vigente`.
-- `Negocio/obtener_tabla_indicaciones.php`: consulta la tabla completa para administración.
-- `Negocio/verificar_sesion.php`: devuelve el estado de la sesión para proteger el panel administrativo.
-- `Datos/conexion.php`: conexión PDO a MariaDB.
-- `Datos/bdd.sql`: esquema para crear una base de datos nueva, sin campos QR.
-- `Datos/migracion_eliminar_qr.sql`: migración para bases existentes que aún tienen la columna `codigoQR`.
+## Encuestas
+- `Presentacion/index.html`: buscador público y botón Encuestas.
+- `Presentacion/formulario.html`: formulario anónimo breve: tipo, segmento y satisfacción de 1 a 5.
+- `Negocio/guardar_encuesta.php`: valida y guarda las respuestas.
+- `Presentacion/administrar_encuestas.php`: vista exclusiva para administrador, dividida en tres segmentos (trasplantados, estándar y FNR).
+- El identificador de una respuesta nueva es `fechaEncuesta`, fecha y hora con microsegundos. No se guarda nombre ni cédula.
 
-## Acceso
+## Acceso administrativo
+El panel y la página de resultados validan la sesión en PHP. El usuario debe tener rol `admin` en la tabla `funcionario`. La autenticación existente debe tener una contraseña válida según el método usado por el proyecto.
 
-La página `index.html` es pública: no ejecuta comprobaciones de sesión ni exige iniciar sesión. El enlace **Uso interno** lleva al formulario de acceso. Al abrir directamente `SIGSM.html`, el sistema verifica la sesión en el servidor y redirige al inicio de sesión si no hay una sesión válida o si el usuario no tiene rol administrativo.
-
-## Base de datos
-
-Configurá las credenciales de MariaDB en `Datos/conexion.php`. Para una base ya existente que aún contiene la columna QR, ejecutá una sola vez `Datos/migracion_eliminar_qr.sql` desde phpMyAdmin.
+## Base existente
+`Datos/migracion_encuestas_segmentadas.sql` está pensada para una tabla de encuestas anterior. Hacé una copia de seguridad antes de ejecutarla. Para instalaciones nuevas, importá `bdd.sql` y no ejecutes la migración.

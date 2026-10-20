@@ -16,7 +16,7 @@ if ($funcionario && $funcionario['contrasenia'] === $clave) {
     $_SESSION['rol'] = strtolower((string)$funcionario['rol']);
 
     if ($_SESSION['rol'] === 'admin') {
-        header("Location: ../Presentacion/SIGSM.html");
+        header("Location: ../Presentacion/SIGSM.php");
     } else {
         header("Location: ../Presentacion/index.html");
     }
