@@ -35,3 +35,49 @@ CREATE TABLE encuesta_respuesta(
     INDEX idx_encuesta_tipo_segmento_fecha (tipoEncuesta, segmento, fechaEncuesta),
     CONSTRAINT chk_encuesta_satisfaccion CHECK (satisfaccion BETWEEN 1 AND 5)
 );
+
+CREATE TABLE personal_traslado (
+ idPersonal INT AUTO_INCREMENT PRIMARY KEY,
+ nombre VARCHAR(100) NOT NULL,
+ documento VARCHAR(20) NULL,
+ funcion ENUM('doctor','chofer','enfermero','administrativo') NOT NULL,
+ activo TINYINT(1) NOT NULL DEFAULT 1,
+ INDEX idx_personal_funcion_activo (funcion, activo)
+);
+
+CREATE TABLE vehiculo (
+ idVehiculo INT AUTO_INCREMENT PRIMARY KEY,
+ codigo VARCHAR(30) NOT NULL UNIQUE,
+ tipo ENUM('ambulancia','auto','utilitario','otro') NOT NULL,
+ descripcion VARCHAR(150) NULL,
+ capacidad INT NOT NULL DEFAULT 1,
+ requiere_asistencia TINYINT(1) NOT NULL DEFAULT 0,
+ activo TINYINT(1) NOT NULL DEFAULT 1
+);
+
+CREATE TABLE traslado (
+ idTraslado INT AUTO_INCREMENT PRIMARY KEY,
+ cedulaPaciente VARCHAR(20) NOT NULL,
+ pacienteReferencia VARCHAR(120) NULL,
+ tipoTraslado ENUM('paciente','elemento') NOT NULL DEFAULT 'paciente',
+ descripcionElemento VARCHAR(150) NULL,
+ prioridad ENUM('normal','urgente','critica') NOT NULL DEFAULT 'normal',
+ origen VARCHAR(255) NOT NULL,
+ destino VARCHAR(255) NOT NULL,
+ ruta VARCHAR(500) NOT NULL,
+ observaciones TEXT NULL,
+ idSolicitante INT NULL,
+ idChofer INT NULL,
+ idEnfermero INT NULL,
+ idVehiculo INT NULL,
+ estado ENUM('solicitado','programado','en_curso','completado','cancelado') NOT NULL DEFAULT 'solicitado',
+ horaSolicitud DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ horaSalida DATETIME NULL,
+ horaEstimadaLlegada DATETIME NULL,
+ horaLlegada DATETIME NULL,
+ FOREIGN KEY (idSolicitante) REFERENCES funcionario(idUsuario),
+ FOREIGN KEY (idChofer) REFERENCES personal_traslado(idPersonal),
+ FOREIGN KEY (idEnfermero) REFERENCES personal_traslado(idPersonal),
+ FOREIGN KEY (idVehiculo) REFERENCES vehiculo(idVehiculo),
+ INDEX idx_traslado_estado_hora (estado, horaSolicitud)
+);

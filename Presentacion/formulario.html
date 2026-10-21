@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="estilos.css"><title>SIGSM | Encuesta anónima</title></head>
-<body><header><div class="hizq"><h3>S.I.G.S.M.</h3></div><div class="hder"><a class="boton-enlace" href="index.html">Volver al inicio</a></div></header>
-<main class="pagina-encuestas"><section class="contenedor-encuestas"><p>Mejora continua</p><h1>Encuesta de satisfacción</h1><p>Es anónima y lleva menos de un minuto.</p><div class="aviso-anonimato"><strong>Anonimato:</strong> no solicitamos nombre ni cédula. El identificador de la respuesta es la fecha y hora de envío.</div><div id="mensajeEncuesta" class="mensaje-encuesta" role="status" hidden></div>
-<form class="formulario-encuesta" action="../Negocio/guardar_encuesta.php" method="post">
-<div class="campo-encuesta"><label for="tipoEncuesta">Tipo de encuesta</label><select id="tipoEncuesta" name="tipoEncuesta" required><option value="">Seleccioná</option><option value="trasplantado">Satisfacción del usuario trasplantado</option><option value="estandar">Satisfacción estándar</option><option value="fnr">Programas del Fondo Nacional de Recursos (FNR)</option></select></div>
-<div class="campo-encuesta"><label for="segmento">Servicio o programa</label><select id="segmento" name="segmento" required><option value="">Seleccioná primero el tipo de encuesta</option></select></div>
-<fieldset class="campo-encuesta"><legend>¿Qué tan satisfecho/a estás?</legend><div class="opciones-satisfaccion"><label><input type="radio" name="satisfaccion" value="1" required> 1 — Muy insatisfecho/a</label><label><input type="radio" name="satisfaccion" value="2"> 2 — Insatisfecho/a</label><label><input type="radio" name="satisfaccion" value="3"> 3 — Neutral</label><label><input type="radio" name="satisfaccion" value="4"> 4 — Satisfecho/a</label><label><input type="radio" name="satisfaccion" value="5"> 5 — Muy satisfecho/a</label></div></fieldset>                <textarea id="comentarios" name="comentarios" placeholder="Escribí tus comentarios aquí..."></textarea>
+<html lang="es">
 
-<button type="submit">Enviar respuesta</button></form></section></main><script src="gestionar_formulario_encuesta.js"></script></body></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>SIGSM | Encuesta anónima</title>
+</head>
+
+<body>
+    <header>
+        <div class="hizq">
+            <h3>S.I.G.S.M.</h3>
+        </div>
+        <div class="hder"><a class="boton-enlace" href="index.html">Volver al inicio</a></div>
+    </header>
+    <main class="pagina-encuestas">
+        <section class="contenedor-encuestas">
+            <h1>Encuesta de satisfacción</h1>
+            <p>Es anónima y lleva menos de un minuto.</p>
+            <div id="mensajeEncuesta" class="mensaje-encuesta" role="status" hidden></div>
+            <form class="formulario-encuesta" action="../Negocio/guardar_encuesta.php" method="post">
+                <label for="tipoEncuesta">Tipo de encuesta</label><select id="tipoEncuesta"
+                        name="tipoEncuesta" required>
+                        <option value="">Seleccioná</option>
+                        <option value="trasplantado">Satisfacción del usuario trasplantado</option>
+                        <option value="estandar">Satisfacción estándar</option>
+                        <option value="fnr">Programas del Fondo Nacional de Recursos (FNR)</option>
+                    </select></div>
+                <label for="segmento">Servicio o programa</label><select id="segmento"
+                        name="segmento" required>
+                        <option value="">Seleccioná primero el tipo de encuesta</option>
+                    </select></div>
+                    <legend>¿Qué tan satisfecho/a estás?</legend>
+                    <div class="opciones-satisfaccion"><label><input type="radio" name="satisfaccion" value="1"
+                                required> 1 — Muy insatisfecho/a</label><label><input type="radio" name="satisfaccion"
+                                value="2"> 2 — Insatisfecho/a</label><label><input type="radio" name="satisfaccion"
+                                value="3"> 3 — Neutral</label><label><input type="radio" name="satisfaccion" value="4">
+                            4 — Satisfecho/a</label><label><input type="radio" name="satisfaccion" value="5"> 5 — Muy
+                            satisfecho/a</label></div>
+                </fieldset>
+                <button type="submit">Enviar respuesta</button>
+            </form>
+        </section>
+    </main>
+    <script src="gestionar_formulario_encuesta.js"></script>
+</body>
+
+</html>

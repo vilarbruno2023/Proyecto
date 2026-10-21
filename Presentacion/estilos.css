@@ -243,7 +243,6 @@ footer{
     max-width: 200px;
     word-wrap: break-word;
 }
-/* Estilos compartidos para la tabla pública y sus filtros */
 body {
     min-height: 100vh;
     height: auto;
@@ -404,7 +403,6 @@ button:hover,
 }
 
 
-/* Encuestas públicas y botón junto al buscador */
 .boton-encuestas {
     white-space: nowrap;
     min-height: 42px;
@@ -435,7 +433,11 @@ button:hover,
     display: grid;
     gap: 7px;
 }
-
+.login-form {
+    background-color: #6c6fff;
+    padding: 40px;
+    border-radius: 5%;
+}
 .formulario-encuesta input,
 .formulario-encuesta select,
 .formulario-encuesta textarea {
@@ -450,13 +452,6 @@ button:hover,
 
 .formulario-encuesta textarea { min-height: 100px; resize: vertical; }
 
-.aviso-anonimato {
-    padding: 12px 14px;
-    border-left: 4px solid #2d7ac7;
-    background: #eff6ff;
-    border-radius: 4px;
-    color: #1e3a5f;
-}
 
 .mensaje-encuesta {
     padding: 12px 14px;

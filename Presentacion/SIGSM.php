@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <?php
 session_start();
-if (!isset($_SESSION['idUsuario']) || strtolower((string)($_SESSION['rol'] ?? '')) !== 'admin') { header('Location: inicio.html'); exit; }
+if (!isset($_SESSION['idUsuario']) || strtolower((string) ($_SESSION['rol'] ?? '')) !== 'admin') {
+    header('Location: inicio.html');
+    exit;
+}
 ?>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +15,7 @@ if (!isset($_SESSION['idUsuario']) || strtolower((string)($_SESSION['rol'] ?? ''
     <link rel="stylesheet" href="estilos.css">
     <title>Proyecto SIGSM</title>
 </head>
+
 <body>
     <header>
         <div class="hizq">
@@ -19,7 +24,9 @@ if (!isset($_SESSION['idUsuario']) || strtolower((string)($_SESSION['rol'] ?? ''
             </div>
         </div>
     </header>
-    <nav class="controles-admin" style="display:flex;gap:10px;flex-wrap:wrap;padding:12px 20px"><a class="boton-enlace" href="administrar_encuestas.php">Encuestas y resultados</a></nav>
+    <nav class="controles-admin" style="display:flex;gap:10px;flex-wrap:wrap;padding:12px 20px"><a class="boton-enlace"
+            href="administrar_encuestas.php">Encuestas</a><a class="boton-enlace"
+            href="administrar_flota.php">Personal y vehículos</a><a class="boton-enlace" href="traslados.php">Ambulancias</a></nav>
 
     <aside>
         <div class="ader">
@@ -75,7 +82,8 @@ if (!isset($_SESSION['idUsuario']) || strtolower((string)($_SESSION['rol'] ?? ''
 
                         <div class="c4">
                             <label>Resumen visible al paciente</label>
-                            <textarea class="areat" name="resumen" placeholder="Preparación previa, cuidados posteriores y contactos útiles para el procedimiento."></textarea>
+                            <textarea class="areat" name="resumen"
+                                placeholder="Preparación previa, cuidados posteriores y contactos útiles para el procedimiento."></textarea>
                         </div>
 
                         <div class="c5">
@@ -118,4 +126,5 @@ if (!isset($_SESSION['idUsuario']) || strtolower((string)($_SESSION['rol'] ?? ''
     <script src="alternar_formulario_indicacion.js"></script>
     <script src="cargar_tabla_indicaciones.js"></script>
 </body>
+
 </html>
