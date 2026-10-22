@@ -21,19 +21,30 @@ $vehiculos = $conexion->query('SELECT * FROM vehiculo ORDER BY tipo,codigo')->fe
     <title>Administrar personal y vehículos</title>
 </head>
 
-<body>
+<body class="pagina-admin">
     <header>
         <div class="hizq">
             <h3>S.I.G.S.M.</h3>
         </div>
-        <div class="hder"><a class="boton-enlace" href="SIGSM.php">Panel</a><a class="boton-enlace"
-                href="traslados.php">Traslados</a></div>
+        <div class="hder"><a class="boton-enlace" href="SIGSM.php">Panel</a><a class="boton-enlace" href="administrar_usuarios.php">Usuarios y credenciales</a><a class="boton-enlace" href="traslados.php">Traslados</a></div>
     </header>
-    <main class="centro">
-        <section class="contf">
+    <main class="pagina-contenido">
+        <section class="panel">
+            <h1>Registrar usuario del sistema</h1>
+            <p>Esta cuenta permite iniciar sesión en SIGSM. No requiere cédula ni nombre completo; utilizá un nombre de usuario único.</p>
+            <form class="formulario-grid" method="post" action="../Negocio/guardar_usuario.php">
+                <input type="hidden" name="accion" value="crear"><input type="hidden" name="origen" value="flota">
+                <label>Nombre de usuario<input name="nombreUsuario" minlength="3" maxlength="50" pattern="[a-zA-Z0-9._-]+" autocomplete="username" required></label>
+                <label>Contraseña inicial<input type="password" name="contrasenia" minlength="10" autocomplete="new-password" required><small>Mínimo 10 caracteres.</small></label>
+                <label>Rol<select name="rol" required><option value="funcionario">Funcionario general</option><option value="documentacion">Documentación (crear indicaciones)</option><option value="doctor">Doctor/a (aprobar indicaciones)</option><option value="operador">Operador de traslados</option><option value="admin">Administrador</option></select></label>
+                <button type="submit">Crear cuenta</button>
+            </form>
+            <p><a href="administrar_usuarios.php">Ver usuarios y cambiar contraseñas</a></p>
+        </section>
+        <section class="panel">
             <div class="fsup">
-                <h2>Registrar personal</h2>
-                <p>Choferes pueden manejar toda la flota compatible. El enfermero es responsable del paciente durante el
+                <h2>Registrar integrante del personal operativo</h2>
+                <p>Este listado es independiente de las credenciales y sirve para asignar choferes, enfermeros y doctores a los traslados. Los choferes pueden manejar toda la flota compatible. El enfermero es responsable del paciente durante el
                     traslado.</p>
             </div>
             <form class="formulario-encuesta" method="post" action="../Negocio/guardar_personal_vehiculo.php"><input
@@ -74,7 +85,7 @@ $vehiculos = $conexion->query('SELECT * FROM vehiculo ORDER BY tipo,codigo')->fe
                 </table>
             </div>
         </section>
-        <section class="contf" style="margin-top:22px">
+        <section class="panel">
             <div class="fsup">
                 <h2>Registrar vehículo</h2>
             </div>

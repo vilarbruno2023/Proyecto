@@ -21,26 +21,28 @@
             <p>Es anónima y lleva menos de un minuto.</p>
             <div id="mensajeEncuesta" class="mensaje-encuesta" role="status" hidden></div>
             <form class="formulario-encuesta" action="../Negocio/guardar_encuesta.php" method="post">
-                <label for="tipoEncuesta">Tipo de encuesta</label><select id="tipoEncuesta"
+                <div class="campo-encuesta"><label for="tipoEncuesta">Tipo de encuesta</label><select id="tipoEncuesta"
                         name="tipoEncuesta" required>
                         <option value="">Seleccioná</option>
                         <option value="trasplantado">Satisfacción del usuario trasplantado</option>
                         <option value="estandar">Satisfacción estándar</option>
                         <option value="fnr">Programas del Fondo Nacional de Recursos (FNR)</option>
                     </select></div>
-                <label for="segmento">Servicio o programa</label><select id="segmento"
+                <div class="campo-encuesta"><label for="segmento">Servicio o programa</label><select id="segmento"
                         name="segmento" required>
                         <option value="">Seleccioná primero el tipo de encuesta</option>
                     </select></div>
+                <fieldset>
                     <legend>¿Qué tan satisfecho/a estás?</legend>
-                    <div class="opciones-satisfaccion"><label><input type="radio" name="satisfaccion" value="1"
-                                required> 1 — Muy insatisfecho/a</label><label><input type="radio" name="satisfaccion"
-                                value="2"> 2 — Insatisfecho/a</label><label><input type="radio" name="satisfaccion"
-                                value="3"> 3 — Neutral</label><label><input type="radio" name="satisfaccion" value="4">
-                            4 — Satisfecho/a</label><label><input type="radio" name="satisfaccion" value="5"> 5 — Muy
-                            satisfecho/a</label></div>
-                </fieldset>
-                <button type="submit">Enviar respuesta</button>
+                    <div class="opciones-satisfaccion">
+                        <label><input type="radio" name="satisfaccion" value="1" required> 1 — Muy
+                            insatisfecho/a</label>
+                        <label><input type="radio" name="satisfaccion" value="2"> 2 — Insatisfecho/a</label>
+                        <label><input type="radio" name="satisfaccion" value="3"> 3 — Neutral</label>
+                        <label><input type="radio" name="satisfaccion" value="4"> 4 — Satisfecho/a</label>
+                        <label><input type="radio" name="satisfaccion" value="5"> 5 — Muy satisfecho/a</label>
+                    </div>
+                </fieldset><button type="submit">Enviar respuesta</button>
             </form>
         </section>
     </main>

@@ -11,7 +11,6 @@ if (!isset($_SESSION['idUsuario']) || strtolower((string) ($_SESSION['rol'] ?? '
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src=""></script>
     <link rel="stylesheet" href="estilos.css">
     <title>Proyecto SIGSM</title>
 </head>
@@ -24,107 +23,23 @@ if (!isset($_SESSION['idUsuario']) || strtolower((string) ($_SESSION['rol'] ?? '
             </div>
         </div>
     </header>
-    <nav class="controles-admin" style="display:flex;gap:10px;flex-wrap:wrap;padding:12px 20px"><a class="boton-enlace"
-            href="administrar_encuestas.php">Encuestas</a><a class="boton-enlace"
-            href="administrar_flota.php">Personal y vehículos</a><a class="boton-enlace" href="traslados.php">Ambulancias</a></nav>
+    <nav class="controles-admin">
+        <a class="boton-enlace" href="administrar_usuarios.php">Usuarios y credenciales</a>
+        <a class="boton-enlace" href="indicaciones.php">Indicaciones y categorías</a>
+        <a class="boton-enlace" href="administrar_encuestas.php">Encuestas</a>
+        <a class="boton-enlace" href="administrar_flota.php">Personal y vehículos</a>
+        <a class="boton-enlace" href="traslados.php">Traslados</a>
+        <a class="boton-enlace" href="../Negocio/logout.php">Cerrar sesión</a>
+    </nav>
 
-    <aside>
-        <div class="ader">
-            <div>
-                <p>Documentación</p>
-            </div>
-            <div>
-                <button id="btnLogoutAside" type="button">Cerrar sesión</button>
-            </div>
-        </div>
-    </aside>
-
-    <main>
-        <div class="centro">
-            <div class="carriba">
-                <div class="caizq">
-                    <div>
-                        <div>Administración de indicaciones</div>
-                        <div>Disponible solo para administrativos del área de documentación.</div>
-                    </div>
-                </div>
-                <div class="cader">
-                    <button type="button" id="btnNewIndicacion">Nueva indicación</button>
-                </div>
-            </div>
-
-            <div id="formularioDiv" style="display:none;">
-                <form action="../Negocio/guardar_documento.php" method="POST" enctype="multipart/form-data">
-                    <div class="medioc">
-                        <div class="c1">
-                            <label>Nombre de la indicación</label>
-                            <input type="text" name="titulo" required placeholder="Ej: Indicaciones IVE">
-                        </div>
-
-                        <div class="c2">
-                            <label>Categoría / Área</label>
-                            <select name="idCategoria" required>
-                                <option value="1">Salud Reproductiva</option>
-                                <option value="2">Cardiología</option>
-                                <option value="3">Nefrología</option>
-                                <option value="4">Imagenología</option>
-                                <option value="5">Prevención</option>
-                            </select>
-                        </div>
-
-                        <div class="c3">
-                            <label>Estado de la indicación</label>
-                            <select name="estado">
-                                <option value="Vigente">Vigente</option>
-                                <option value="Revisar">Revisar</option>
-                            </select>
-                        </div>
-
-                        <div class="c4">
-                            <label>Resumen visible al paciente</label>
-                            <textarea class="areat" name="resumen"
-                                placeholder="Preparación previa, cuidados posteriores y contactos útiles para el procedimiento."></textarea>
-                        </div>
-
-                        <div class="c5">
-                            <label>Archivo PDF de la indicación</label>
-                            <input type="file" name="archivo" accept=".pdf" required>
-                        </div>
-                    </div>
-
-                    <div class="medioab">
-                        <button type="submit">Publicar cambios</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+    <main class="pagina-contenido">
+        <section class="panel">
+            <h1>Panel de administración</h1>
+            <p>Desde este panel podés administrar usuarios y credenciales, categorías de indicaciones, encuestas, personal operativo, vehículos y traslados.</p>
+            <p>Las indicaciones se crean desde «Indicaciones y categorías» con una cuenta del área Documentación y solo un doctor puede dejarlas vigentes.</p>
+        </section>
     </main>
-
-    <footer>
-        <div class="contf">
-            <div class="fsup">
-                <h3>Indicaciones existentes</h3>
-            </div>
-
-            <table id="tablaDocumentos">
-                <thead>
-                    <tr>
-                        <th>TÍTULO</th>
-                        <th>CATEGORÍA</th>
-                        <th>ESTADO</th>
-                        <th>RESUMEN</th>
-                        <th>ACCIONES</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </footer>
-
     <script src="cerrar_sesion.js"></script>
-    <script src="alternar_formulario_indicacion.js"></script>
-    <script src="cargar_tabla_indicaciones.js"></script>
 </body>
 
 </html>

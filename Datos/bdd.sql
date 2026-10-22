@@ -4,7 +4,7 @@ USE proyecto;
 
 CREATE TABLE funcionario(
 	idUsuario int PRIMARY KEY AUTO_INCREMENT,
-    nombreUsuario VARCHAR(50) NOT null,
+    nombreUsuario VARCHAR(50) NOT null UNIQUE,
     contrasenia varchar(255) NOT null,
     rol varchar(20) NOT NULL DEFAULT 'usuario'
 );
@@ -20,8 +20,8 @@ CREATE TABLE documento(
     idCategoria int NOT null,
     titulo varchar(100) NOT null,
     resumen TEXT NULL,
-    archivo varchar(50) NOT null,
-    estado varchar(20) NOT null DEFAULT 'Activo',
+    archivo varchar(100) NOT null,
+    estado varchar(20) NOT null DEFAULT 'Revisar',
     
     FOREIGN KEY (idUsuario) REFERENCES funcionario(idUsuario),
     FOREIGN KEY (idCategoria) REFERENCES categoria(idCategoria)
@@ -57,7 +57,9 @@ CREATE TABLE vehiculo (
 
 CREATE TABLE traslado (
  idTraslado INT AUTO_INCREMENT PRIMARY KEY,
- cedulaPaciente VARCHAR(20) NOT NULL,
+ cedulaPaciente VARCHAR(20) NULL,
+ nombrePaciente VARCHAR(120) NULL,
+ zonaRoja TINYINT(1) NOT NULL DEFAULT 0,
  pacienteReferencia VARCHAR(120) NULL,
  tipoTraslado ENUM('paciente','elemento') NOT NULL DEFAULT 'paciente',
  descripcionElemento VARCHAR(150) NULL,
@@ -81,3 +83,7 @@ CREATE TABLE traslado (
  FOREIGN KEY (idVehiculo) REFERENCES vehiculo(idVehiculo),
  INDEX idx_traslado_estado_hora (estado, horaSolicitud)
 );
+
+INSERT INTO categoria (nombreCategoria) VALUES
+('Salud Reproductiva'), ('Cardiología'), ('Nefrología'), ('Imagenología'), ('Prevención');
+

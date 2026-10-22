@@ -2,7 +2,7 @@
 session_start();
 require_once __DIR__ . "/../Datos/conexion.php";
 
-if (empty($_SESSION['idUsuario']) || strtolower((string)($_SESSION['rol'] ?? '')) !== 'admin') {
+if (empty($_SESSION['idUsuario']) || !in_array(strtolower((string)($_SESSION['rol'] ?? '')), ['admin','doctor','documentacion'], true)) {
     http_response_code(403);
     echo '<tr><td colspan="5">No tenés permisos para consultar este listado.</td></tr>';
     exit;

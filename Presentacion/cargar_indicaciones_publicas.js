@@ -5,6 +5,17 @@ document.addEventListener('DOMContentLoaded', async function cargarIndicacionesP
     const mensajeSinResultados = document.getElementById('mensajeSinResultados');
 
     try {
+        // Las categorías se leen desde la BDD; no quedan incrustadas en el HTML.
+        const respuestaCategorias = await fetch('../Negocio/obtener_categorias.php');
+        if (respuestaCategorias.ok) {
+            const categorias = await respuestaCategorias.json();
+            categorias.forEach(categoria => {
+                const opcion = document.createElement('option');
+                opcion.value = categoria.nombreCategoria;
+                opcion.textContent = categoria.nombreCategoria;
+                selectorArea.appendChild(opcion);
+            });
+        }
         const respuestaIndicaciones = await fetch('../Negocio/obtener_indicaciones_vigentes.php');
         if (!respuestaIndicaciones.ok) {
             throw new Error('No se pudieron cargar las indicaciones.');

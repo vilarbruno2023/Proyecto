@@ -14,5 +14,5 @@ if ($id) {
     Documento::eliminar($conexion, (int)$id);
 }
 
-header("Location: ../Presentacion/SIGSM.html");
+header("Location: ../Presentacion/indicaciones.php");
 exit;
