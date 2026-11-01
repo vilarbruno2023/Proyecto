@@ -72,7 +72,7 @@ CREATE TABLE traslado (
  idChofer INT NULL,
  idEnfermero INT NULL,
  idVehiculo INT NULL,
- estado ENUM('solicitado','programado','en_curso','completado','cancelado') NOT NULL DEFAULT 'solicitado',
+ estado ENUM('solicitado','programado','en_curso','demorado','completado','cancelado') NOT NULL DEFAULT 'solicitado',
  horaSolicitud DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
  horaSalida DATETIME NULL,
  horaEstimadaLlegada DATETIME NULL,

@@ -1,34 +1,47 @@
 <?php
 session_start();
-if (empty($_SESSION['idUsuario']) || strtolower((string)($_SESSION['rol'] ?? '')) !== 'documentacion') {
-    http_response_code(403); exit('Solo el personal de Documentación puede crear indicaciones.');
+if (empty($_SESSION['idUsuario']) || strtolower((string) ($_SESSION['rol'] ?? '')) !== 'documentacion') {
+    http_response_code(403);
+    exit('Solo Documentación puede crear indicaciones.');
 }
 require_once __DIR__ . '/../Datos/conexion.php';
-$titulo = trim((string)($_POST['titulo'] ?? ''));
-$idCategoria = filter_input(INPUT_POST, 'idCategoria', FILTER_VALIDATE_INT);
-$resumen = trim((string)($_POST['resumen'] ?? ''));
-if ($titulo === '' || strlen($titulo) > 100 || !$idCategoria || empty($_FILES['archivo']['name'])) {
-    header('Location: ../Presentacion/indicaciones.php?error=1'); exit;
+$t = trim((string) ($_POST['titulo'] ?? ''));
+$r = trim((string) ($_POST['resumen'] ?? ''));
+$cat = filter_var($_POST['idCategoria'] ?? null, FILTER_VALIDATE_INT);
+if (!$t || strlen($t) > 100 || !$cat || empty($_FILES['archivo']) || $_FILES['archivo']['error'] !== UPLOAD_ERR_OK) {
+    http_response_code(400);
+    exit('Datos incompletos.');
+}
+$f = $_FILES['archivo'];
+if ($f['size'] > 12 * 1024 * 1024) {
+    http_response_code(400);
+    exit('El PDF supera 12 MB.');
+}
+$fi = new finfo(FILEINFO_MIME_TYPE);
+if ($fi->file($f['tmp_name']) !== 'application/pdf') {
+    http_response_code(400);
+    exit('El archivo debe ser PDF.');
 }
 $q = $conexion->prepare('SELECT COUNT(*) FROM categoria WHERE idCategoria=?');
-$q->execute([$idCategoria]);
-if (!$q->fetchColumn()) { header('Location: ../Presentacion/indicaciones.php?error=1'); exit; }
-$f = $_FILES['archivo'];
-if (($f['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || !is_uploaded_file($f['tmp_name']) || ($f['size'] ?? 0) > 10 * 1024 * 1024) {
-    header('Location: ../Presentacion/indicaciones.php?error=1'); exit;
+$q->execute([$cat]);
+if (!$q->fetchColumn()) {
+    http_response_code(400);
+    exit('Categoría inexistente.');
 }
-$ext = strtolower(pathinfo($f['name'], PATHINFO_EXTENSION));
-$mime = (new finfo(FILEINFO_MIME_TYPE))->file($f['tmp_name']);
-if ($ext !== 'pdf' || $mime !== 'application/pdf') { header('Location: ../Presentacion/indicaciones.php?error=1'); exit; }
-$dir = __DIR__ . '/../Documentos/';
-if (!is_dir($dir) && !mkdir($dir, 0755, true)) { header('Location: ../Presentacion/indicaciones.php?error=1'); exit; }
-$nombre = 'doc_' . bin2hex(random_bytes(16)) . '.pdf';
-if (!move_uploaded_file($f['tmp_name'], $dir . $nombre)) { header('Location: ../Presentacion/indicaciones.php?error=1'); exit; }
+$nombre = 'doc_' . bin2hex(random_bytes(12)) . '.pdf';
+$dest = __DIR__ . '/../Documentos/' . $nombre;
+if (!move_uploaded_file($f['tmp_name'], $dest)) {
+    http_response_code(500);
+    exit('No se pudo guardar el archivo.');
+}
 try {
-    $stmt = $conexion->prepare("INSERT INTO documento(idUsuario,idCategoria,titulo,resumen,estado,archivo) VALUES(?,?,?,?, 'Revisar',?)");
-    $stmt->execute([(int)$_SESSION['idUsuario'], $idCategoria, $titulo, $resumen ?: null, $nombre]);
+    $q = $conexion->prepare("INSERT INTO documento(idUsuario,idCategoria,titulo,resumen,archivo,estado) VALUES(?,?,?,?,?,'Revisar')");
+    $q->execute([(int) $_SESSION['idUsuario'], $cat, $t, $r, $nombre]);
 } catch (Throwable $e) {
-    @unlink($dir . $nombre); error_log('Guardar indicación: '.$e->getMessage());
-    header('Location: ../Presentacion/indicaciones.php?error=1'); exit;
+    @unlink($dest);
+    error_log($e->getMessage());
+    http_response_code(500);
+    exit('No se pudo registrar la indicación.');
 }
-header('Location: ../Presentacion/indicaciones.php?ok=1'); exit;
+header('Location: ../Presentacion/indicaciones.html?ok=1');
+exit;

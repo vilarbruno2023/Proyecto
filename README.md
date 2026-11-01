@@ -15,10 +15,10 @@
 Formulario público breve: tipo, segmento y satisfacción (1–5). No solicita ni guarda nombre o cédula. El identificador es la fecha-hora con microsegundos. Las respuestas se ven en tres segmentos en `Presentacion/administrar_encuestas.php`, solo para administradores.
 
 ## Traslados
-- `Presentacion/traslados.php`: usuarios con sesión pueden crear solicitudes; los roles `admin` y `operador` pueden asignar recursos y actualizar estado/horarios.
+- `Presentacion/traslados.html` + `Presentacion/traslados.js`: interfaz sin PHP incrustado. Cualquier funcionario con sesión iniciada puede registrar y actualizar el seguimiento compartido. La lógica del servidor se concentra en `Negocio/api_traslados.php` y las funciones reutilizables de `Negocio/funciones_traslados.php`.
 - `Presentacion/administrar_flota.php`: solo administradores registran y activan/desactivan doctores, choferes, enfermeros, administrativos y vehículos.
 - La cédula se ingresa manualmente; no se consume API. El origen, destino y ruta se ingresan manualmente. No hay integración con mapas ni cálculo automático de rutas.
-- El formulario separa solicitud de la gestión operativa. El enfermero se asigna como responsable del paciente y el chofer puede conducir cualquier vehículo compatible.
+- El formulario separa solicitud de la gestión operativa. El chofer no tiene cuenta ni utiliza SIGSM; se conserva únicamente como dato de asignación operativa. Los funcionarios registran y actualizan el traslado. El enfermero puede figurar como responsable del paciente.
 - Se valida que el chofer seleccionado sea personal con función de chofer, el enfermero sea personal con función de enfermero y que un utilitario no sea asignado a un traslado de paciente. Las reglas reales de compatibilidad deberán ajustarse a las normas del hospital.
 
 ## Importante
@@ -36,3 +36,13 @@ Es un prototipo funcional inicial, no un sistema clínico certificado. Antes de 
 
 ## Pruebas pendientes
 La sintaxis PHP se validó con `php -l`. La conexión real a MariaDB, las rutas desde el navegador y la ejecución de la migración deben probarse en tu instalación de XAMPP. Antes de ejecutar `migracion_mejoras.sql`, hacé una exportación de la base de datos.
+
+
+## Seguimiento compartido de traslados (versión nueva)
+- Todos los funcionarios autenticados consultan la misma lista de traslados en la base de datos compartida; no se crean hospitales ni asociaciones institucionales.
+- Cualquier funcionario autenticado puede registrar un traslado y actualizar su estado.
+- Flujo: `solicitado` o `programado` → `en_curso` → `demorado` (si corresponde) → `en_curso` o `completado`. También se puede cancelar antes de finalizar.
+- El funcionario que recibe al paciente puede marcar el mismo traslado como `completado`; no hay cuentas ni acciones de choferes.
+- `demorado` queda registrado como estado propio. La hora de salida se registra al pasar a `en_curso` por primera vez y la llegada efectiva al marcar `completado`.
+- La pantalla de traslados es HTML estático; JavaScript consume una API JSON. PHP no genera HTML en este módulo. Las operaciones de crear/listar/actualizar están centralizadas en un punto de entrada y funciones de negocio.
+- Si ya existe la base de datos y ya aplicaste la migración anterior, hacé una copia de seguridad y ejecutá `Datos/migracion_estado_demorado.sql` una sola vez. Si todavía no aplicaste las mejoras anteriores, seguí las instrucciones de `Datos/migracion_mejoras.sql` y luego ejecutá esta migración. Si se instala desde cero, importar `Datos/bdd.sql`.
