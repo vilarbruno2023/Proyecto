@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>SIGSM | Indicaciones vigentes</title>
+</head>
+<body>
+    <header>
+        <div class="hizq"><h3>S.I.G.S.M.</h3></div>
+        <div class="hder">
+            <a class="boton-enlace" href="inicio.html">Uso interno</a>
+        </div>
+    </header>
+
+    <aside>
+        <div class="filtros-publicos">
+            <div>
+                <p>Indicaciones para pacientes</p>
+                <h2>Indicaciones vigentes</h2>
+                <p>Consultá y descargá las indicaciones disponibles.</p>
+            </div>
+            <div class="controles-filtro">
+                <input type="text" id="buscarIndicacion" placeholder="Buscar indicaciones" aria-label="Buscar indicaciones">
+                <select id="filtroArea" aria-label="Filtrar por área"><option value="">Todas las categorías</option></select>
+                <a class="boton-enlace boton-encuestas" href="formulario.html">Encuestas</a>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <div class="centro centro-publico">
+            <div class="contf tabla-publica-contenedor">
+                <div class="fsup"><h3>Listado de indicaciones</h3></div>
+                <div class="tabla-desplazable">
+                    <table id="tablaIndicacionesPublicas">
+                        <thead>
+                            <tr>
+                                <th>TÍTULO</th>
+                                <th>CATEGORÍA</th>
+                                <th>RESUMEN</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoIndicacionesPublicas">
+                            <tr><td colspan="4">Cargando indicaciones...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p id="mensajeSinResultados" class="mensaje-vacio" hidden>No hay indicaciones que coincidan con la búsqueda.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="cargar_indicaciones_publicas.js"></script>
+</body>
+</html>
