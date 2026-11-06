@@ -8,7 +8,7 @@
     <title>Encuestas | SIGSM</title>
 </head>
 
-<body class="pagina-admin" data-page="encuestas">
+<body class="pagina-admin">
     <header>
         <div class="hizq">
             <h3>S.I.G.S.M. | Encuestas</h3>
@@ -23,12 +23,31 @@
         <p id="aviso" class="aviso" role="status"></p>
         <div id="contenido">
             <section class="panel">
-                <p>Cargando información…</p>
+                <h1>Respuestas de encuestas</h1>
+                <p>Identificador: fecha y hora de envío. Respuestas anónimas.</p>
+            </section>
+
+            <section class="panel">
+                <h2>Usuarios trasplantados</h2>
+                <p id="resumenTrasplantado"></p>
+                <p id="puntajesTrasplantado"></p>
+            </section>
+
+            <section class="panel">
+                <h2>Satisfacción estándar</h2>
+                <p id="resumenEstandar"></p>
+                <p id="puntajesEstandar"></p>
+            </section>
+
+            <section class="panel">
+                <h2>Programas FNR</h2>
+                <p id="resumenFNR"></p>
+                <p id="puntajesFNR"></p>
             </section>
         </div>
     </main>
     <script src="admin_acceso.js" defer></script>
-    <script src="admin.js" defer></script>
+    <script src="encuestas.js" defer></script>
 </body>
 
 </html>

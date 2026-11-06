@@ -8,7 +8,7 @@
     <title>Usuarios y credenciales | SIGSM</title>
 </head>
 
-<body class="pagina-admin" data-page="usuarios">
+<body class="pagina-admin">
     <header>
         <div class="hizq">
             <h3>S.I.G.S.M. | Usuarios y credenciales</h3>
@@ -23,10 +23,44 @@
         <p id="aviso" class="aviso" role="status"></p>
         <div id="contenido">
             <section class="panel">
-                <p>Cargando información…</p>
+                <h1>Crear usuario</h1>
+                <form id="crearUsuario" class="formulario-grid">
+                    <label>Nombre de usuario<input name="nombreUsuario" minlength="3" maxlength="50"
+                            pattern="[a-zA-Z0-9._-]+" required></label>
+                    <label>Contraseña (mínimo 10)<input type="password" name="contrasenia" minlength="10"
+                            required></label>
+                    <label>Rol<select name="rol">
+                            <option value="funcionario">funcionario</option>
+                            <option value="documentacion">documentacion</option>
+                            <option value="doctor">doctor</option>
+                            <option value="operador">operador</option>
+                            <option value="admin">admin</option>
+                        </select></label>
+                    <button>Crear usuario</button>
+                </form>
+            </section>
+            <section class="panel">
+                <h2>Usuarios registrados</h2>
+                <div class="tabla-desplazable">
+                    <table>
+                        <thead><tr><th>Usuario</th><th>Rol</th><th>Cambiar contraseña</th></tr></thead>
+                        <tbody id="usuarios"></tbody>
+                    </table>
+                </div>
             </section>
         </div>
     </main>
+    <template id="filaUsuario">
+        <tr>
+            <td data-usuario></td>
+            <td data-rol></td>
+            <td><form class="cambiarClave formulario-inline">
+                <input type="password" name="nuevaContrasenia" minlength="10" placeholder="Nueva contraseña" required>
+                <button>Actualizar</button>
+            </form></td>
+        </tr>
+    </template>
+    <template id="sinUsuarios"><tr><td colspan="3"></td></tr></template>
     <script src="admin_acceso.js" defer></script>
     <script src="admin.js" defer></script>
 </body>

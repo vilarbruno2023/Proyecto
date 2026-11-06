@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/configuracion.php';
-require_once DIRECTORIO_PRIVADO . DIRECTORY_SEPARATOR . 'Datos' . DIRECTORY_SEPARATOR . 'conexion.php';
+require_once DIRECTORIO_PRIVADO . '/Datos/conexion.php';
 
 $usuario = trim((string) ($_POST['usuario'] ?? ''));
 $clave = (string) ($_POST['clave'] ?? '');
@@ -9,19 +9,10 @@ $stmt = $conexion->prepare('SELECT idUsuario, nombreUsuario, contrasenia, rol FR
 $stmt->execute(['usuario' => $usuario]);
 $funcionario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$valida = false;
-if ($funcionario) {
-    $guardada = (string) $funcionario['contrasenia'];
-    if (password_verify($clave, $guardada)) {
-        $valida = true;
-    } elseif (hash_equals($guardada, $clave)) {
-        $hash = password_hash($clave, PASSWORD_DEFAULT);
-        $actualizar = $conexion->prepare('UPDATE funcionario SET contrasenia = ? WHERE idUsuario = ?');
-        $actualizar->execute([$hash, $funcionario['idUsuario']]);
-        $valida = true;
-    }
-}
+$valida = $funcionario !== false &&
+    password_verify($clave, (string) $funcionario['contrasenia']);
 if ($valida) {
+    // Se renueva el identificador de sesión al iniciar sesión.
     session_regenerate_id(true);
     $_SESSION['idUsuario'] = (int) $funcionario['idUsuario'];
     $_SESSION['nombre'] = $funcionario['nombreUsuario'];

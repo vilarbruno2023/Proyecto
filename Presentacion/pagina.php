@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../Negocio/configuracion.php';
 
+// Solo se pueden abrir estas vistas y con los roles indicados.
 $paginas = [
     'panel' => ['archivo' => 'SIGSM.html', 'roles' => ['admin']],
     'usuarios' => ['archivo' => 'usuarios.html', 'roles' => ['admin']],
@@ -28,8 +29,8 @@ if (!in_array($rol, $paginas[$pagina]['roles'], true)) {
     exit('No tenés permisos para acceder a esta página.');
 }
 
-$directorioVistasPrivadas = DIRECTORIO_PRIVADO . DIRECTORY_SEPARATOR . 'Presentacion';
-$archivo = $directorioVistasPrivadas . DIRECTORY_SEPARATOR . $paginas[$pagina]['archivo'];
+$directorioVistasPrivadas = DIRECTORIO_PRIVADO . '/Presentacion';
+$archivo = $directorioVistasPrivadas . '/' . $paginas[$pagina]['archivo'];
 if (!is_file($archivo) || !is_readable($archivo)) {
     error_log('No se puede leer la vista privada solicitada: ' . $pagina);
     http_response_code(500);

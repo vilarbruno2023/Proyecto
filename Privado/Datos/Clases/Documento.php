@@ -21,8 +21,9 @@ class Documento
             throw new RuntimeException('No se encontró la carpeta de documentos.');
         }
 
-        $rutaArchivo = $directorioReal . DIRECTORY_SEPARATOR . $nombreArchivo;
+        $rutaArchivo = $directorioReal . '/' . $nombreArchivo;
 
+        // Si falla el borrado del archivo, se recupera también el registro de la base.
         $conexion->beginTransaction();
         try {
             $consulta = $conexion->prepare('DELETE FROM documento WHERE idDocumento = ?');

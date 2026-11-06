@@ -1,18 +1,20 @@
 <?php
 
-$host = "127.0.0.1";
-$port = "3306";
+$servidor = "127.0.0.1";
+$puerto = "3306";
 $baseDatos = "proyecto";
-$usuarioDB = "root";
-$contraseñaDB = "";
+$usuarioBaseDatos = "root";
+$contrasenaBaseDatos = "";
  
 try {
     $conexion = new PDO(
-        "mysql:host=$host;port=$port;dbname=$baseDatos;charset=utf8mb4",
-        $usuarioDB,
-        $contraseñaDB
+        "mysql:host=$servidor;port=$puerto;dbname=$baseDatos;charset=utf8mb4",
+        $usuarioBaseDatos,
+        $contrasenaBaseDatos
     );
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("No se pudo conectar a la base de datos: " . $e->getMessage());
+} catch (PDOException $error) {
+    error_log('Error al conectar con la base de datos: ' . $error->getMessage());
+    http_response_code(500);
+    die('No se pudo conectar a la base de datos.');
 }

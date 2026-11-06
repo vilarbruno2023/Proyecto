@@ -44,7 +44,9 @@
                             </tr>
                         </thead>
                         <tbody id="cuerpoIndicacionesPublicas">
-                            <tr><td colspan="4">Cargando indicaciones...</td></tr>
+                            <tr id="filaCargaIndicaciones">
+                                <td id="mensajeCargaIndicaciones" colspan="4">Cargando indicaciones...</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -53,6 +55,12 @@
         </div>
     </main>
 
+    <template id="filaIndicacionPublica">
+        <tr class="fila-indicacion">
+            <td data-titulo></td><td data-categoria></td><td data-resumen></td>
+            <td><a data-pdf target="_blank" rel="noopener">Ver PDF</a></td>
+        </tr>
+    </template>
     <script src="cargar_indicaciones_publicas.js"></script>
 </body>
 </html>

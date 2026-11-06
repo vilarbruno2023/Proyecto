@@ -27,6 +27,7 @@ $soloAdmin = [
 ];
 $rolesIndicaciones = ['admin', 'doctor', 'documentacion'];
 
+// La API revisa permisos en el servidor; ocultar botones en la página no alcanza.
 if (in_array($accion, $soloAdmin, true) && $rol !== 'admin') {
     http_response_code(403);
     echo json_encode(['ok' => false, 'error' => 'Acceso denegado.']);
@@ -39,9 +40,9 @@ if ($accion === 'indicaciones' && !in_array($rol, $rolesIndicaciones, true)) {
     exit;
 }
 
-if ($accion === 'crear_indicacion' && $rol !== 'documentacion') {
+if ($accion === 'crear_indicacion' && !in_array($rol, ['admin', 'documentacion'], true)) {
     http_response_code(403);
-    echo json_encode(['ok' => false, 'error' => 'Solo Documentación puede crear indicaciones.']);
+    echo json_encode(['ok' => false, 'error' => 'No tenés permiso para crear indicaciones.']);
     exit;
 }
 
@@ -51,9 +52,15 @@ if ($accion === 'aprobar_indicacion' && $rol !== 'doctor') {
     exit;
 }
 
+if ($accion === 'editar_indicacion' && !in_array($rol, ['admin', 'documentacion'], true)) {
+    http_response_code(403);
+    echo json_encode(['ok' => false, 'error' => 'No tenés permiso para editar indicaciones.']);
+    exit;
+}
+
 require_once __DIR__ . '/configuracion.php';
-require_once DIRECTORIO_PRIVADO . DIRECTORY_SEPARATOR . 'Datos' . DIRECTORY_SEPARATOR . 'conexion.php';
-require_once DIRECTORIO_PRIVADO . DIRECTORY_SEPARATOR . 'Datos' . DIRECTORY_SEPARATOR . 'Clases' . DIRECTORY_SEPARATOR . 'Documento.php';
+require_once DIRECTORIO_PRIVADO . '/Datos/conexion.php';
+require_once DIRECTORIO_PRIVADO . '/Datos/Clases/Documento.php';
 
 function responderJson($respuesta)
 {
@@ -86,7 +93,7 @@ try {
                 ->fetchAll(PDO::FETCH_ASSOC);
             $indicaciones = $conexion
                 ->query(
-                    'SELECT d.idDocumento, d.titulo, d.resumen, d.archivo, d.estado, d.idCategoria, ' .
+                    'SELECT d.idDocumento, d.idUsuario, d.titulo, d.resumen, d.archivo, d.estado, d.idCategoria, ' .
                     'c.nombreCategoria, f.nombreUsuario AS creador ' .
                     'FROM documento d ' .
                     'JOIN categoria c ON c.idCategoria = d.idCategoria ' .
@@ -95,10 +102,17 @@ try {
                 )
                 ->fetchAll(PDO::FETCH_ASSOC);
 
+            // Documentación solo puede editar las indicaciones que creó.
+            foreach ($indicaciones as $numero => $indicacion) {
+                $indicaciones[$numero]['puedeEditar'] = $rol === 'admin' ||
+                    ($rol === 'documentacion' && (int) $indicacion['idUsuario'] === (int) $_SESSION['idUsuario']);
+                unset($indicaciones[$numero]['idUsuario']);
+            }
+
             responderJson([
                 'categorias' => $categorias,
                 'indicaciones' => $indicaciones,
-                'puedeCrear' => $rol === 'documentacion',
+                'puedeCrear' => in_array($rol, ['admin', 'documentacion'], true),
                 'puedeAprobar' => $rol === 'doctor',
                 'puedeCategorias' => $rol === 'admin',
                 'puedeEliminar' => $rol === 'admin'
@@ -112,14 +126,41 @@ try {
             ]);
 
         case 'encuestas':
-            responderJson([
-                'respuestas' => $conexion
-                    ->query(
-                        'SELECT fechaEncuesta, tipoEncuesta, segmento, satisfaccion ' .
-                        'FROM encuesta_respuesta ORDER BY fechaEncuesta DESC'
-                    )
-                    ->fetchAll(PDO::FETCH_ASSOC)
-            ]);
+            $respuestas = $conexion
+                ->query(
+                    'SELECT tipoEncuesta, satisfaccion FROM encuesta_respuesta'
+                )
+                ->fetchAll(PDO::FETCH_ASSOC);
+            $resultados = [
+                'trasplantado' => ['cantidad' => 0, 'total' => 0, 'promedio' => 'sin datos', 'puntajes' => [0, 0, 0, 0, 0]],
+                'estandar' => ['cantidad' => 0, 'total' => 0, 'promedio' => 'sin datos', 'puntajes' => [0, 0, 0, 0, 0]],
+                'fnr' => ['cantidad' => 0, 'total' => 0, 'promedio' => 'sin datos', 'puntajes' => [0, 0, 0, 0, 0]]
+            ];
+
+            foreach ($respuestas as $respuesta) {
+                $tipo = $respuesta['tipoEncuesta'];
+                if (!isset($resultados[$tipo])) {
+                    continue;
+                }
+
+                $satisfaccion = (int) $respuesta['satisfaccion'];
+                $resultados[$tipo]['cantidad']++;
+                $resultados[$tipo]['total'] += $satisfaccion;
+                $resultados[$tipo]['puntajes'][$satisfaccion - 1]++;
+            }
+
+            foreach ($resultados as $tipo => $resultado) {
+                if ($resultado['cantidad'] > 0) {
+                    $resultados[$tipo]['promedio'] = number_format(
+                        $resultado['total'] / $resultado['cantidad'],
+                        1,
+                        ',',
+                        ''
+                    );
+                }
+            }
+
+            responderJson(['resultados' => $resultados]);
 
         case 'flota':
             responderJson([
@@ -140,7 +181,7 @@ try {
 
             if (
                 !preg_match('/^[a-zA-Z0-9._-]{3,50}$/', $nombreUsuario) ||
-                strlen($contrasenia) < 10 ||
+                mb_strlen($contrasenia, 'UTF-8') < 10 ||
                 !in_array($rolUsuario, ['funcionario', 'documentacion', 'doctor', 'operador', 'admin'], true)
             ) {
                 throw new InvalidArgumentException(
@@ -164,7 +205,7 @@ try {
             $idUsuario = filter_var($_POST['idUsuario'] ?? null, FILTER_VALIDATE_INT);
             $nuevaContrasenia = (string) ($_POST['nuevaContrasenia'] ?? '');
 
-            if (!$idUsuario || strlen($nuevaContrasenia) < 10) {
+            if (!$idUsuario || mb_strlen($nuevaContrasenia, 'UTF-8') < 10) {
                 throw new InvalidArgumentException('Contraseña inválida.');
             }
 
@@ -184,7 +225,12 @@ try {
             $documentoPersonal = trim((string) ($_POST['documento'] ?? ''));
             $funcionPersonal = (string) ($_POST['funcion'] ?? '');
 
-            if (!$nombrePersonal || !in_array($funcionPersonal, ['doctor', 'chofer', 'enfermero', 'administrativo'], true)) {
+            if (
+                !$nombrePersonal ||
+                mb_strlen($nombrePersonal, 'UTF-8') > 100 ||
+                mb_strlen($documentoPersonal, 'UTF-8') > 20 ||
+                !in_array($funcionPersonal, ['doctor', 'chofer', 'enfermero', 'administrativo'], true)
+            ) {
                 throw new InvalidArgumentException('Datos de personal inválidos.');
             }
 
@@ -207,7 +253,9 @@ try {
 
             if (
                 !$codigoVehiculo ||
+                mb_strlen($codigoVehiculo, 'UTF-8') > 30 ||
                 !in_array($tipoVehiculo, ['ambulancia', 'auto', 'utilitario', 'otro'], true) ||
+                mb_strlen(trim((string) ($_POST['descripcion'] ?? '')), 'UTF-8') > 150 ||
                 !$capacidadVehiculo ||
                 $capacidadVehiculo < 1 ||
                 $capacidadVehiculo > 50
@@ -306,6 +354,58 @@ try {
             }
 
             responderJson(['mensaje' => 'Indicación eliminada.']);
+
+        case 'editar_indicacion':
+            requerirMetodoPost();
+
+            $idDocumento = filter_var($_POST['idDocumento'] ?? null, FILTER_VALIDATE_INT);
+            $titulo = trim((string) ($_POST['titulo'] ?? ''));
+            $resumen = trim((string) ($_POST['resumen'] ?? ''));
+            $idCategoria = filter_var($_POST['idCategoria'] ?? null, FILTER_VALIDATE_INT);
+
+            if (
+                !$idDocumento ||
+                !$idCategoria ||
+                $titulo === '' ||
+                mb_strlen($titulo) > 100 ||
+                mb_strlen($resumen) > 4000
+            ) {
+                throw new InvalidArgumentException('Revisá el título, la categoría y el resumen.');
+            }
+
+            $consulta = $conexion->prepare('SELECT idUsuario FROM documento WHERE idDocumento = ?');
+            $consulta->execute([$idDocumento]);
+            $idCreador = $consulta->fetchColumn();
+
+            if ($idCreador === false) {
+                http_response_code(404);
+                echo json_encode(
+                    ['ok' => false, 'error' => 'No se encontró la indicación.'],
+                    JSON_UNESCAPED_UNICODE
+                );
+                exit;
+            }
+
+            if ($rol === 'documentacion' && (int) $idCreador !== (int) $_SESSION['idUsuario']) {
+                http_response_code(403);
+                echo json_encode(
+                    ['ok' => false, 'error' => 'Solo podés editar las indicaciones que creaste.'],
+                    JSON_UNESCAPED_UNICODE
+                );
+                exit;
+            }
+
+            $consulta = $conexion->prepare('SELECT COUNT(*) FROM categoria WHERE idCategoria = ?');
+            $consulta->execute([$idCategoria]);
+            if (!(int) $consulta->fetchColumn()) {
+                throw new InvalidArgumentException('La categoría seleccionada no existe.');
+            }
+
+            $consulta = $conexion->prepare(
+                'UPDATE documento SET titulo = ?, resumen = ?, idCategoria = ? WHERE idDocumento = ?'
+            );
+            $consulta->execute([$titulo, $resumen ?: null, $idCategoria, $idDocumento]);
+            responderJson(['mensaje' => 'Indicación actualizada.']);
 
         default:
             http_response_code(400);

@@ -144,7 +144,7 @@
         <div class="hizq">
             <h3>S.I.G.S.M. | Traslados</h3>
         </div>
-        <div class="hder"><a class="boton-enlace" href="pagina.php?pagina=panel">Panel</a><a class="boton-enlace"
+        <div class="hder"><a class="boton-enlace" href="index.html">Inicio</a><a class="boton-enlace"
                 href="../Negocio/logout.php">Cerrar sesión</a></div>
     </header>
     <main class="pagina-contenido">
@@ -172,6 +172,16 @@
                         <option value="urgente">Urgente</option>
                         <option value="critica">Crítica</option>
                     </select></label>
+                <label>Chofer<select name="idChofer">
+                        <option value="">Sin asignar</option>
+                    </select></label>
+                <label id="campoEnfermero">Enfermero<select name="idEnfermero">
+                        <option value="">Sin asignar</option>
+                    </select></label>
+                <label>Vehículo<select name="idVehiculo">
+                        <option value="">Sin asignar</option>
+                    </select></label>
+                <label>Llegada estimada<input type="datetime-local" name="horaEstimadaLlegada"></label>
                 <label>Origen<input name="origen" maxlength="255" required></label><label>Destino<input name="destino"
                         maxlength="255" required></label>
                 <label class="ancho">Ruta propuesta<textarea name="ruta" maxlength="500"
@@ -184,8 +194,81 @@
             <h2>Traslados registrados</h2>
             <p>La información es compartida. Un funcionario puede marcar «En curso» o «Demorado» y otro puede confirmar
                 «Completado».</p>
+            <form id="formFiltrosTraslados" class="form-traslado">
+                <label>Paciente<input name="paciente" maxlength="120"></label>
+                <label>Vehículo<input name="vehiculo" maxlength="30" placeholder="Código del vehículo"></label>
+                <div>
+                    <button type="submit">Filtrar</button>
+                    <button type="button" id="limpiarFiltrosTraslados">Limpiar filtros</button>
+                </div>
+            </form>
             <div id="listaTraslados" class="lista-traslados" aria-live="polite">Cargando traslados…</div>
         </section>
+        <template id="plantillaTraslado">
+            <article class="traslado-card">
+                <div class="traslado-head">
+                    <div><small data-numero></small><h3 data-titulo></h3></div>
+                    <div>
+                        <span class="tag" data-estado></span>
+                        <span class="tag roja" data-zona-roja hidden>ZONA ROJA</span>
+                        <span class="tag" data-prioridad></span>
+                    </div>
+                </div>
+                <div class="datos-card">
+                    <div><strong>Origen</strong><span data-origen></span></div>
+                    <div><strong>Destino</strong><span data-destino></span></div>
+                    <div><strong>Cédula</strong><span data-cedula></span></div>
+                    <div><strong>Ruta</strong><span data-ruta></span></div>
+                    <div><strong>Vehículo</strong><span data-vehiculo></span></div>
+                    <div><strong>Chofer asignado</strong><span data-chofer></span></div>
+                    <div><strong>Enfermero asignado</strong><span data-enfermero></span></div>
+                    <div><strong>Solicitado</strong><span data-solicitud></span></div>
+                    <div><strong>Salida</strong><span data-salida></span></div>
+                    <div><strong>Llegada estimada</strong><span data-llegada-estimada></span></div>
+                    <div><strong>Llegada efectiva</strong><span data-llegada></span></div>
+                    <div><strong>Observaciones</strong><span data-observaciones></span></div>
+                </div>
+                <details class="editar-traslado" data-editar>
+                    <summary>Editar traslado</summary>
+                    <form class="form-traslado editar-traslado-form">
+                        <label>Qué se traslada<select name="tipoTraslado">
+                                <option value="paciente">Paciente</option>
+                                <option value="elemento">Elemento</option>
+                            </select></label>
+                        <label data-campo-paciente>Nombre del paciente<input name="nombrePaciente" maxlength="120"></label>
+                        <label data-campo-paciente>Cédula del paciente<input name="cedulaPaciente" maxlength="20"></label>
+                        <label data-campo-paciente>Referencia<input name="pacienteReferencia" maxlength="120"></label>
+                        <label class="check" data-campo-paciente><input type="checkbox" name="zonaRoja" value="1"> Traslado en zona roja</label>
+                        <label data-campo-elemento hidden>Elemento a trasladar<input name="descripcionElemento" maxlength="150"></label>
+                        <label>Prioridad<select name="prioridad">
+                                <option value="normal">Normal</option>
+                                <option value="urgente">Urgente</option>
+                                <option value="critica">Crítica</option>
+                            </select></label>
+                        <label>Chofer<select name="idChofer"><option value="">Sin asignar</option></select></label>
+                        <label data-campo-paciente>Enfermero<select name="idEnfermero"><option value="">Sin asignar</option></select></label>
+                        <label>Vehículo<select name="idVehiculo"><option value="">Sin asignar</option></select></label>
+                        <label>Llegada estimada<input type="datetime-local" name="horaEstimadaLlegada"></label>
+                        <label>Origen<input name="origen" maxlength="255" required></label>
+                        <label>Destino<input name="destino" maxlength="255" required></label>
+                        <label class="ancho">Ruta propuesta<textarea name="ruta" maxlength="500" required></textarea></label>
+                        <label class="ancho">Observaciones<textarea name="observaciones" maxlength="2000"></textarea></label>
+                        <div class="ancho"><button type="submit">Guardar cambios</button></div>
+                    </form>
+                </details>
+                <form class="estado-form">
+                    <strong>Seguimiento</strong>
+                    <select name="estado">
+                        <option value="programado">Programado</option>
+                        <option value="en_curso">En curso</option>
+                        <option value="demorado">Demorado</option>
+                        <option value="completado">Completado</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                    <button type="submit">Actualizar estado</button>
+                </form>
+            </article>
+        </template>
     </main>
     <script src="traslados.js" defer></script>
 </body>

@@ -1,54 +1,59 @@
-document.addEventListener('DOMContentLoaded', async function cargarIndicacionesPublicas() {
-    const cuerpoTablaIndicaciones = document.getElementById('cuerpoIndicacionesPublicas');
-    const campoBuscarIndicacion = document.getElementById('buscarIndicacion');
-    const selectorArea = document.getElementById('filtroArea');
-    const mensajeSinResultados = document.getElementById('mensajeSinResultados');
+const tabla = document.getElementById('cuerpoIndicacionesPublicas');
+const busqueda = document.getElementById('buscarIndicacion');
+const filtroCategoria = document.getElementById('filtroArea');
+const mensajeSinResultados = document.getElementById('mensajeSinResultados');
+
+function filtrarIndicaciones() {
+    const texto = busqueda.value.trim().toLocaleLowerCase('es');
+    let cantidadResultados = 0;
+
+    tabla.querySelectorAll('.fila-indicacion').forEach(fila => {
+        const coincideTexto = fila.textContent.toLocaleLowerCase('es').includes(texto);
+        const coincideCategoria = !filtroCategoria.value ||
+            fila.dataset.categoria === filtroCategoria.value;
+        fila.hidden = !coincideTexto || !coincideCategoria;
+        if (!fila.hidden) cantidadResultados++;
+    });
+
+    mensajeSinResultados.hidden = cantidadResultados > 0;
+}
+
+async function cargarIndicaciones() {
+    let datos;
 
     try {
-        const respuestaCategorias = await fetch('../Negocio/obtener_categorias.php');
-        if (!respuestaCategorias.ok) {
-            throw new Error('No se pudieron cargar las categorías.');
-        }
-        const categorias = await respuestaCategorias.json();
-        categorias.forEach(categoria => {
-            const opcion = document.createElement('option');
-            opcion.value = categoria.nombreCategoria;
-            opcion.textContent = categoria.nombreCategoria;
-            selectorArea.appendChild(opcion);
-        });
-
-        const respuestaIndicaciones = await fetch('../Negocio/obtener_indicaciones_vigentes.php');
-        if (!respuestaIndicaciones.ok) {
-            throw new Error('No se pudieron cargar las indicaciones.');
-        }
-
-        cuerpoTablaIndicaciones.innerHTML = await respuestaIndicaciones.text();
-        filtrarIndicacionesPublicas();
-    } catch (errorCarga) {
-        console.error('Error al cargar las indicaciones públicas:', errorCarga);
-        cuerpoTablaIndicaciones.innerHTML = '<tr><td colspan="4">No fue posible cargar las indicaciones. Intentá nuevamente más tarde.</td></tr>';
+        const respuesta = await fetch('../Negocio/obtener_indicaciones_vigentes.php');
+        if (!respuesta.ok) throw new Error('No se pudieron cargar las indicaciones.');
+        datos = await respuesta.json();
+    } catch (error) {
+        console.error('Error al cargar las indicaciones públicas:', error);
+        document.getElementById('mensajeCargaIndicaciones').textContent =
+            'No fue posible cargar las indicaciones. Intentá nuevamente más tarde.';
+        return;
     }
 
-    function filtrarIndicacionesPublicas() {
-        const textoBusqueda = campoBuscarIndicacion.value.trim().toLocaleLowerCase('es');
-        const areaSeleccionada = selectorArea.value;
-        const filasIndicaciones = cuerpoTablaIndicaciones.querySelectorAll('tr.fila-indicacion');
-        let cantidadResultados = 0;
+    tabla.textContent = '';
+    datos.categorias.forEach(categoria => {
+        const opcion = document.createElement('option');
+        opcion.value = categoria.nombreCategoria;
+        opcion.textContent = categoria.nombreCategoria;
+        filtroCategoria.append(opcion);
+    });
 
-        filasIndicaciones.forEach(function aplicarFiltro(filaIndicacion) {
-            const textoFila = filaIndicacion.textContent.toLocaleLowerCase('es');
-            const areaIndicacion = filaIndicacion.dataset.area;
-            const coincideTexto = textoFila.includes(textoBusqueda);
-            const coincideArea = areaSeleccionada === '' || areaIndicacion === areaSeleccionada;
-            const mostrarIndicacion = coincideTexto && coincideArea;
+    datos.indicaciones.forEach(indicacion => {
+        const fila = document.getElementById('filaIndicacionPublica')
+            .content.firstElementChild.cloneNode(true);
+        fila.dataset.categoria = indicacion.nombreCategoria;
+        fila.querySelector('[data-titulo]').textContent = indicacion.titulo || '';
+        fila.querySelector('[data-categoria]').textContent = indicacion.nombreCategoria || '';
+        fila.querySelector('[data-resumen]').textContent = indicacion.resumen || '';
+        fila.querySelector('[data-pdf]').href = '../Documentos/' + indicacion.archivo;
+        tabla.append(fila);
+    });
 
-            filaIndicacion.hidden = !mostrarIndicacion;
-            if (mostrarIndicacion) cantidadResultados++;
-        });
+    filtrarIndicaciones();
+}
 
-        mensajeSinResultados.hidden = cantidadResultados > 0 || filasIndicaciones.length === 0;
-    }
-
-    campoBuscarIndicacion.addEventListener('input', filtrarIndicacionesPublicas);
-    selectorArea.addEventListener('change', filtrarIndicacionesPublicas);
-});
+busqueda.addEventListener('input', filtrarIndicaciones);
+filtroCategoria.addEventListener('change', filtrarIndicaciones);
+cargarIndicaciones();

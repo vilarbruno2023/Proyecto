@@ -7,31 +7,29 @@ SIGSM es una aplicación web en PHP para gestionar indicaciones, encuestas de sa
 - Un servidor web con PHP y soporte para sesiones.
 - Las extensiones PHP PDO MySQL, Fileinfo y mbstring.
 - MySQL o MariaDB.
-- Apache/PHP configurado para aceptar cargas de archivos de hasta 12 MB.
+- PHP configurado para aceptar archivos de hasta 12 MB y solicitudes POST mayores a ese límite.
 
 ## Instalación
 
 1. Colocá el proyecto en el servidor web (por ejemplo, en 'htdocs' de XAMPP).
-2. Importá 'Privado/Datos/bdd.sql' en MySQL/MariaDB. El archivo crea la base 'proyecto', sus tablas y las categorías iniciales.
+2. Importá 'Privado/Datos/bdd.sql' en MySQL/MariaDB. El archivo crea la base 'proyecto', sus tablas, las categorías iniciales y datos de ejemplo para probar encuestas y traslados.
 3. Configurá host, puerto, nombre de base, usuario y contraseña de la base en 'Privado/Datos/conexion.php'.
-4. 'Negocio/configuracion.php' resuelve 'Privado' como una carpeta hermana de 'Negocio'. Si ubicás 'Privado' en otro lugar, modificá allí la constante 'DIRECTORIO_PRIVADO' para que apunte a su ruta real.
-5. Creá la primera cuenta con rol 'admin' en la tabla 'funcionario'. No hay una cuenta inicial incluida en el SQL. Para una instalación local, podés insertar una contraseña temporal en texto plano:
+4. El SQL incluye la cuenta inicial 'admin' con la contraseña 'Cambiar12345!'. Cambiala después del primer inicio de sesión desde la sección **Usuarios**.
+5. 'Negocio/configuracion.php' resuelve 'Privado' como una carpeta hermana de 'Negocio'. Para evitar el acceso directo a sus archivos, ubicá 'Privado' fuera del directorio público y modificá allí la constante 'DIRECTORIO_PRIVADO' para que apunte a su ruta real.
+6. La carpeta 'Documentos' debe existir y permitir que PHP guarde allí los PDF subidos.
+7. Abrí 'Presentacion/index.html' desde el servidor web.
 
-   INSERT INTO funcionario (nombreUsuario, contrasenia, rol)
-   VALUES ('admin', 'REEMPLAZAR_POR_UNA_CLAVE_TEMPORAL', 'admin');
+Para probar los permisos, el SQL también crea las cuentas 'documentacion_demo', 'doctor_demo', 'operador_demo' y 'funcionario_demo'. Todas usan la contraseña temporal 'Cambiar12345!'. Son cuentas y registros ficticios para desarrollo; no los uses en una instalación pública y eliminá las cuentas de prueba o cambiá sus contraseñas antes de publicar.
 
-   Al iniciar sesión correctamente, 'Negocio/login.php' convierte esa contraseña a un hash. Cambiala después desde la sección **Usuarios**.
-6. Abrí 'Presentacion/index.html' desde el servidor web.
-
-La carpeta 'Documentos' debe existir y permitir que PHP guarde allí los PDF subidos.
+Los PDF se guardan en 'Documentos', que está dentro del directorio público del proyecto; por lo tanto, cualquier persona que tenga la dirección de un PDF puede abrirlo. No guardes allí documentos que deban permanecer privados.
 
 ## Funcionalidades disponibles
 
 - **Indicaciones:** el rol 'documentacion' puede cargar PDF de hasta 12 MB; se registran inicialmente con estado 'Revisar'. El rol 'doctor' puede cambiar el estado a 'Vigente' o 'Rechazada'. El rol 'admin' puede administrar categorías y eliminar indicaciones. Las indicaciones vigentes se muestran en la parte pública del sitio.
-- **Encuestas:** el formulario público guarda tipo de encuesta, servicio o programa, satisfacción de 1 a 5 y fecha. No pide nombre ni cédula. La consulta de respuestas está disponible para administradores.
-- **Traslados:** los usuarios con sesión iniciada pueden registrar traslados de pacientes o elementos y actualizar su estado. La interfaz permite iniciar, demorar, reanudar, completar o cancelar un traslado según su estado actual. Origen, destino y ruta se ingresan manualmente. El esquema también define el estado 'programado', pero la interfaz actual no ofrece una acción para programar un traslado.
+- **Encuestas:** el formulario público guarda tipo de encuesta, servicio o programa, satisfacción de 1 a 5 y fecha. No pide nombre ni cédula. El administrador ve la cantidad de respuestas, el promedio y la distribución de puntajes para cada tipo de encuesta; no se muestran las respuestas individuales.
+- **Traslados:** los usuarios con sesión iniciada pueden registrar y editar traslados de pacientes o elementos, asignar personal y vehículos activos, y actualizar su estado según las transiciones permitidas. Se puede programar un traslado, iniciarlo, demorar, reanudar, completar o cancelar. Origen, destino y ruta se ingresan manualmente.
 - **Usuarios:** el administrador puede crear cuentas con los roles 'admin', 'documentacion', 'doctor', 'operador' y 'funcionario', y cambiar sus contraseñas. Las contraseñas creadas desde el panel se almacenan con 'password_hash'.
-- **Personal y vehículos:** el administrador puede registrar y activar o desactivar personal y vehículos. El formulario actual de traslados no permite asignarlos; las asignaciones que aparezcan en la base no se gestionan desde esa pantalla.
+- **Personal y vehículos:** el administrador puede registrar y activar o desactivar personal y vehículos. En los traslados solo se pueden asignar recursos activos y compatibles con el tipo de traslado.
 
 ## Acceso por rol
 
@@ -40,7 +38,7 @@ La carpeta 'Documentos' debe existir y permitir que PHP guarde allí los PDF sub
 - 'doctor': indicaciones y traslados; puede revisar indicaciones.
 - 'operador' y 'funcionario': traslados.
 
-Las páginas privadas se sirven mediante 'Presentacion/pagina.php', que verifica sesión y rol. Para que los archivos de 'Privado' no queden accesibles directamente desde el servidor web, ubicá esa carpeta fuera del directorio público y ajustá 'DIRECTORIO_PRIVADO'.
+Las páginas privadas se sirven mediante 'Presentacion/pagina.php', que verifica sesión y rol en el servidor. La seguridad de estas páginas depende también de ubicar 'Privado' fuera del directorio público y configurar correctamente 'DIRECTORIO_PRIVADO'.
 
 ## Estructura principal
 
