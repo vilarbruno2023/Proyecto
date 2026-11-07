@@ -10,7 +10,7 @@ $categorias = $conexion
 // La página pública solo muestra indicaciones aprobadas.
 $indicaciones = $conexion
     ->query(
-        "SELECT d.idDocumento, d.titulo, d.resumen, d.archivo, c.nombreCategoria " .
+        "SELECT d.idDocumento, d.titulo, d.resumen, c.nombreCategoria " .
         "FROM documento d JOIN categoria c ON c.idCategoria = d.idCategoria " .
         "WHERE d.estado = 'Vigente' ORDER BY d.idDocumento DESC"
     )

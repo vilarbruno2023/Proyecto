@@ -192,8 +192,8 @@
         </section>
         <section class="panel panel-traslados">
             <h2>Traslados registrados</h2>
-            <p>La información es compartida. Un funcionario puede marcar «En curso» o «Demorado» y otro puede confirmar
-                «Completado».</p>
+            <p>La información es compartida. Un funcionario puede marcar «En curso» y otro puede confirmar
+                «Finalizado».</p>
             <form id="formFiltrosTraslados" class="form-traslado">
                 <label>Paciente<input name="paciente" maxlength="120"></label>
                 <label>Vehículo<input name="vehiculo" maxlength="30" placeholder="Código del vehículo"></label>
@@ -259,11 +259,9 @@
                 <form class="estado-form">
                     <strong>Seguimiento</strong>
                     <select name="estado">
-                        <option value="programado">Programado</option>
-                        <option value="en_curso">En curso</option>
-                        <option value="demorado">Demorado</option>
-                        <option value="completado">Completado</option>
-                        <option value="cancelado">Cancelado</option>
+                        <option value="En curso">En curso</option>
+                        <option value="Finalizado">Finalizado</option>
+                        <option value="Cancelado">Cancelado</option>
                     </select>
                     <button type="submit">Actualizar estado</button>
                 </form>

@@ -15,7 +15,7 @@ if (!in_array($rol, ['admin', 'documentacion', 'doctor', 'operador', 'funcionari
 }
 require_once __DIR__ . '/configuracion.php';
 require_once DIRECTORIO_PRIVADO . '/Datos/conexion.php';
-require_once __DIR__ . '/funciones_traslados.php';
+require_once DIRECTORIO_PRIVADO . '/Datos/Clases/Traslado.php';
 $accion = (string) ($_GET['accion'] ?? $_POST['accion'] ?? 'listar');
 try {
     if ($accion === 'listar') {
@@ -24,8 +24,8 @@ try {
 
         echo json_encode([
             'ok' => true,
-            'traslados' => listarTraslados($conexion, $nombrePaciente, $codigoVehiculo),
-            'recursos' => listarRecursosTraslado($conexion)
+            'traslados' => Traslado::listarTraslados($conexion, $nombrePaciente, $codigoVehiculo),
+            'recursos' => Traslado::listarRecursosTraslado($conexion)
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
@@ -34,17 +34,17 @@ try {
         throw new RuntimeException('Método no permitido.');
     }
     if ($accion === 'crear') {
-        $idTraslado = crearTraslado($conexion, $_POST, (int) $_SESSION['idUsuario']);
+        $idTraslado = Traslado::crearTraslado($conexion, $_POST, (int) $_SESSION['idUsuario']);
         echo json_encode(['ok' => true, 'mensaje' => 'Traslado registrado.', 'id' => $idTraslado], JSON_UNESCAPED_UNICODE);
         exit;
     }
     if ($accion === 'editar') {
-        editarTraslado($conexion, $_POST);
+        Traslado::editarTraslado($conexion, $_POST);
         echo json_encode(['ok' => true, 'mensaje' => 'Traslado actualizado.'], JSON_UNESCAPED_UNICODE);
         exit;
     }
     if ($accion === 'estado') {
-        actualizarEstadoTraslado($conexion, $_POST);
+        Traslado::actualizarEstadoTraslado($conexion, $_POST);
         echo json_encode(['ok' => true, 'mensaje' => 'Estado actualizado.'], JSON_UNESCAPED_UNICODE);
         exit;
     }

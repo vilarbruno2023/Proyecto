@@ -47,7 +47,7 @@ async function cargarIndicaciones() {
         fila.querySelector('[data-titulo]').textContent = indicacion.titulo || '';
         fila.querySelector('[data-categoria]').textContent = indicacion.nombreCategoria || '';
         fila.querySelector('[data-resumen]').textContent = indicacion.resumen || '';
-        fila.querySelector('[data-pdf]').href = '../Documentos/' + indicacion.archivo;
+        fila.querySelector('[data-pdf]').href = '../Negocio/ver_documento.php?id=' + indicacion.idDocumento;
         tabla.append(fila);
     });
 

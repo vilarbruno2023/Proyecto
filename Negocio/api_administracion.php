@@ -40,12 +40,6 @@ if ($accion === 'indicaciones' && !in_array($rol, $rolesIndicaciones, true)) {
     exit;
 }
 
-if ($accion === 'crear_indicacion' && !in_array($rol, ['admin', 'documentacion'], true)) {
-    http_response_code(403);
-    echo json_encode(['ok' => false, 'error' => 'No tenés permiso para crear indicaciones.']);
-    exit;
-}
-
 if ($accion === 'aprobar_indicacion' && $rol !== 'doctor') {
     http_response_code(403);
     echo json_encode(['ok' => false, 'error' => 'Solo un doctor puede revisar indicaciones.']);

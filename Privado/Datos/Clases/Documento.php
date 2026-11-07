@@ -30,7 +30,7 @@ class Documento
             $consulta->execute([$idDocumento]);
 
             if (is_file($rutaArchivo) && !unlink($rutaArchivo)) {
-                throw new RuntimeException('No se pudo borrar el archivo PDF.');
+                throw new RuntimeException('No se pudo borrar el archivo.');
             }
 
             $conexion->commit();

@@ -113,7 +113,7 @@ function agregarDatosTraslado(tarjeta, traslado) {
     tarjeta.querySelector('[data-titulo]').textContent = traslado.tipoTraslado === 'elemento'
         ? traslado.descripcionElemento || 'Elemento'
         : traslado.nombrePaciente || 'Paciente';
-    tarjeta.querySelector('[data-estado]').textContent = traslado.estado.replace('_', ' ');
+    tarjeta.querySelector('[data-estado]').textContent = traslado.estado;
     tarjeta.querySelector('[data-zona-roja]').hidden = Number(traslado.zonaRoja) !== 1;
     tarjeta.querySelector('[data-prioridad]').textContent = 'Prioridad: ' + traslado.prioridad;
     tarjeta.querySelector('[data-origen]').textContent = traslado.origen;
@@ -132,7 +132,7 @@ function agregarDatosTraslado(tarjeta, traslado) {
 
 function completarFormularioEdicion(tarjeta, traslado) {
     const detallesEdicion = tarjeta.querySelector('[data-editar]');
-    detallesEdicion.hidden = !['solicitado', 'programado'].includes(traslado.estado);
+    detallesEdicion.hidden = !traslado.estado === 'Pendiente';
     const formulario = detallesEdicion.querySelector('form');
 
     formulario.elements.tipoTraslado.value = traslado.tipoTraslado;
@@ -162,10 +162,8 @@ function mostrarEstadosPermitidos(tarjeta, estadoActual) {
     const selectorEstado = formularioEstado.elements.estado;
     // El servidor también valida estas transiciones al recibir el formulario.
     const estadosPermitidos = {
-        solicitado: ['programado', 'en_curso', 'cancelado'],
-        programado: ['en_curso', 'cancelado'],
-        en_curso: ['demorado', 'completado', 'cancelado'],
-        demorado: ['en_curso', 'completado', 'cancelado']
+        'Pendiente': ['En curso', 'Cancelado'],
+        'En curso': ['Finalizado', 'Cancelado']
     };
     const opciones = estadosPermitidos[estadoActual] || [];
 

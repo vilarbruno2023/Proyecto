@@ -180,7 +180,7 @@ async function cargarIndicaciones() {
         fila.querySelector('[data-resumen]').textContent = indicacion.resumen || '';
 
         const enlace = fila.querySelector('[data-pdf]');
-        enlace.href = '../Documentos/' + indicacion.archivo;
+        enlace.href = '../Negocio/ver_documento.php?id=' + indicacion.idDocumento;
 
         const revision = fila.querySelector('[data-revision]');
         revision.hidden = !datos.puedeAprobar;
@@ -236,7 +236,8 @@ contenido.addEventListener('submit', async evento => {
                 method: 'POST',
                 body: nuevoFormularioDatos(formulario)
             });
-            if (!respuesta.ok) throw new Error('No se pudo guardar la indicación.');
+            const resultado = await respuesta.json();
+            if (!respuesta.ok || !resultado.ok) throw new Error(resultado.error || 'No se pudo guardar la indicación.');
             formulario.reset();
             mostrarAviso('Indicación enviada a revisión.');
             await cargarIndicaciones();

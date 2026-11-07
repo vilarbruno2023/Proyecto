@@ -29,7 +29,7 @@
                     <label>Título<input name="titulo" maxlength="100" required></label>
                     <label>Categoría<select name="idCategoria" required></select></label>
                     <label class="ancho-completo">Resumen<textarea name="resumen" maxlength="4000"></textarea></label>
-                    <label class="ancho-completo">PDF<input type="file" name="archivo" accept="application/pdf,.pdf" required></label>
+                    <label class="ancho-completo">Archivo PDF (máximo 12 MB)<input type="file" name="archivo" accept=".pdf,application/pdf" required></label>
                     <button>Enviar a revisión</button>
                 </form>
             </section>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="tabla-desplazable"><table>
                     <thead><tr>
-                        <th>Título</th><th>Categoría</th><th>Estado</th><th>Resumen</th><th>PDF</th>
+                        <th>Título</th><th>Categoría</th><th>Estado</th><th>Resumen</th><th>Archivo</th>
                         <th id="encabezadoRevision" hidden>Revisión</th><th id="encabezadoAcciones" hidden>Acciones</th>
                     </tr></thead>
                     <tbody id="listaIndicaciones"></tbody>
@@ -66,7 +66,7 @@
     </main>
     <template id="filaIndicacion"><tr>
         <td data-titulo></td><td data-categoria></td><td data-estado></td><td data-resumen></td>
-        <td><a data-pdf target="_blank" rel="noopener">Ver PDF</a></td>
+        <td><a data-pdf target="_blank" rel="noopener">Ver archivo</a></td>
         <td data-revision hidden><form class="revisarIndicacion formulario-inline">
             <select name="estado"><option>Revisar</option><option>Vigente</option><option>Rechazada</option></select>
             <button>Guardar</button>
