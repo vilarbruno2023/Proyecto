@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Indicación | SIGSM</title>
+</head>
+
+<body>
+    <header>
+        <div class="hizq">
+            <h3>S.I.G.S.M.</h3>
+        </div>
+    </header>
+    <main class="pagina-encuestas">
+        <section class="detalle-indicacion">
+            <a class="boton-enlace" href="index.html">Volver a indicaciones</a>
+            <p id="mensajeIndicacion" role="status" aria-live="polite">Cargando indicación...</p>
+            <article id="detalleIndicacion" hidden>
+                <p>Indicación vigente</p>
+                <h1 id="tituloIndicacion"></h1>
+                <p><strong>Categoría:</strong> <span id="categoriaIndicacion"></span></p>
+                <p id="resumenIndicacion"></p>
+                <a id="archivoIndicacion" class="boton-enlace" target="_blank" rel="noopener">Abrir PDF</a>
+                <section class="codigo-qr" aria-labelledby="tituloCodigoQr">
+                    <h2 id="tituloCodigoQr">Compartir esta indicación</h2>
+                    <p>Escaneá el código QR para abrir esta página desde otro dispositivo.</p>
+                    <div id="codigoQr" role="img" aria-label="Código QR de esta indicación"></div>
+                </section>
+            </article>
+        </section>
+    </main>
+    <script src="qrcode.min.js" defer></script>
+    <script src="indicacion.js" defer></script>
+</body>
+
+</html>

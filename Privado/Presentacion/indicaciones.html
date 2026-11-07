@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Indicaciones | SIGSM</title>
+</head>
+
+<body class="pagina-admin">
+    <header>
+        <div class="hizq">
+            <h3>S.I.G.S.M. | Indicaciones</h3>
+        </div>
+    </header>
+    <nav class="controles-admin"><a class="boton-enlace" href="pagina.php?pagina=panel">Panel</a><a class="boton-enlace"
+            href="pagina.php?pagina=usuarios">Usuarios</a><a class="boton-enlace" href="pagina.php?pagina=indicaciones">Indicaciones</a><a
+            class="boton-enlace" href="pagina.php?pagina=encuestas">Encuestas</a><a class="boton-enlace" href="pagina.php?pagina=flota">Personal y
+            vehículos</a><a class="boton-enlace" href="pagina.php?pagina=traslados">Traslados</a><a class="boton-enlace"
+            href="../Negocio/logout.php">Cerrar sesión</a></nav>
+    <main class="pagina-contenido">
+        <p id="aviso" class="aviso" role="status"></p>
+        <div id="contenido">
+            <section id="seccionNuevaIndicacion" class="panel" hidden>
+                <h2>Nueva indicación</h2>
+                <p>Se guarda como Revisar. Un doctor debe aprobarla.</p>
+                <form id="nuevaIndicacion" class="formulario-grid">
+                    <label>Título<input name="titulo" maxlength="100" required></label>
+                    <label>Categoría<select name="idCategoria" required></select></label>
+                    <label class="ancho-completo">Resumen<textarea name="resumen" maxlength="4000"></textarea></label>
+                    <label class="ancho-completo">Archivo PDF (máximo 12 MB)<input type="file" name="archivo" accept=".pdf,application/pdf" required></label>
+                    <button>Enviar a revisión</button>
+                </form>
+            </section>
+            <section id="seccionCategorias" class="panel" hidden>
+                <h2>Categorías</h2>
+                <form id="categoria" class="formulario-inline">
+                    <input name="nombreCategoria" maxlength="50" placeholder="Nueva categoría" required>
+                    <button>Agregar</button>
+                </form>
+            </section>
+            <section class="panel">
+                <h2>Indicaciones registradas</h2>
+                <div class="formulario-grid">
+                    <label>Buscar<input id="filtroTextoIndicaciones" type="search" placeholder="Título, categoría o resumen"></label>
+                    <label>Categoría<select id="filtroCategoriaIndicaciones">
+                        <option value="">Todas las categorías</option>
+                    </select></label>
+                    <label>Estado<select id="filtroEstadoIndicaciones">
+                        <option value="">Todos los estados</option>
+                        <option value="Revisar">Revisar</option>
+                        <option value="Vigente">Vigente</option>
+                        <option value="Rechazada">Rechazada</option>
+                    </select></label>
+                </div>
+                <div class="tabla-desplazable"><table>
+                    <thead><tr>
+                        <th>Título</th><th>Categoría</th><th>Estado</th><th>Resumen</th><th>Archivo</th>
+                        <th id="encabezadoRevision" hidden>Revisión</th><th id="encabezadoAcciones" hidden>Acciones</th>
+                    </tr></thead>
+                    <tbody id="listaIndicaciones"></tbody>
+                </table></div>
+            </section>
+        </div>
+    </main>
+    <template id="filaIndicacion"><tr>
+        <td data-titulo></td><td data-categoria></td><td data-estado></td><td data-resumen></td>
+        <td><a data-pdf target="_blank" rel="noopener">Ver archivo</a></td>
+        <td data-revision hidden><form class="revisarIndicacion formulario-inline">
+            <select name="estado"><option>Revisar</option><option>Vigente</option><option>Rechazada</option></select>
+            <button>Guardar</button>
+        </form></td>
+        <td data-acciones hidden>
+            <details data-editar hidden><summary>Editar</summary>
+                <form class="editarIndicacion formulario-grid">
+                    <label>Título<input name="titulo" maxlength="100" required></label>
+                    <label>Categoría<select name="idCategoria" required></select></label>
+                    <label class="ancho-completo">Resumen<textarea name="resumen" maxlength="4000"></textarea></label>
+                    <label class="ancho-completo">Reemplazar archivo PDF (opcional, máximo 12 MB)<input type="file" name="archivo" accept=".pdf,application/pdf"></label>
+                    <button type="submit">Guardar cambios</button>
+                </form>
+            </details>
+            <form class="eliminarIndicacion formulario-inline" hidden><button type="submit">Eliminar</button></form>
+        </td>
+    </tr></template>
+    <template id="sinIndicaciones"><tr><td colspan="5">Todavía no hay indicaciones.</td></tr></template>
+    <script src="admin_acceso.js" defer></script>
+    <script src="admin.js" defer></script>
+</body>
+
+</html>
