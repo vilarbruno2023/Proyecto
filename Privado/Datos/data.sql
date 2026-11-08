@@ -4,10 +4,10 @@ INSERT INTO funcionario (nombreUsuario, contrasenia, rol) VALUES
 ('admin', '$2y$10$ZIiYpavxI34zoH.aF3tGWOJAfA0aWW2j1DwKM6e9mUMPK2JD53BhK', 'admin');
 
 INSERT INTO funcionario (nombreUsuario, contrasenia, rol) VALUES
-('documentacion_demo', '$2y$10$ZIiYpavxI34zoH.aF3tGWOJAfA0aWW2j1DwKM6e9mUMPK2JD53BhK', 'documentacion'),
-('doctor_demo', '$2y$10$ZIiYpavxI34zoH.aF3tGWOJAfA0aWW2j1DwKM6e9mUMPK2JD53BhK', 'doctor'),
-('operador_demo', '$2y$10$ZIiYpavxI34zoH.aF3tGWOJAfA0aWW2j1DwKM6e9mUMPK2JD53BhK', 'operador'),
-('funcionario_demo', '$2y$10$ZIiYpavxI34zoH.aF3tGWOJAfA0aWW2j1DwKM6e9mUMPK2JD53BhK', 'funcionario');
+('documentacion', '$2y$10$ZIiYpavxI34zoH.aF3tGWOJAfA0aWW2j1DwKM6e9mUMPK2JD53BhK', 'documentacion'),
+('doctor', '$2y$10$ZIiYpavxI34zoH.aF3tGWOJAfA0aWW2j1DwKM6e9mUMPK2JD53BhK', 'doctor'),
+('operador', '$2y$10$ZIiYpavxI34zoH.aF3tGWOJAfA0aWW2j1DwKM6e9mUMPK2JD53BhK', 'operador'),
+('funcionario', '$2y$10$ZIiYpavxI34zoH.aF3tGWOJAfA0aWW2j1DwKM6e9mUMPK2JD53BhK', 'funcionario');
 
 INSERT INTO categoria (nombreCategoria) VALUES
 ('Salud Reproductiva'), ('Cardiología'), ('Nefrología'), ('Imagenología'), ('Prevención');
