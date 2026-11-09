@@ -31,10 +31,10 @@ Todas estas cuentas tienen la contraseña temporal `Cambiar12345!`:
 | Usuario | Rol |
 |---|---|
 | `admin` | Administrador |
-| `documentacion_demo` | Documentación |
-| `doctor_demo` | Doctor |
-| `operador_demo` | Operador |
-| `funcionario_demo` | Funcionario |
+| `documentacion` | Documentación |
+| `doctor` | Doctor |
+| `operador` | Operador |
+| `funcionario` | Funcionario |
 
 `data.sql` también incluye categorías, seis respuestas de encuesta, personal, vehículos y dos traslados ficticios. Las contraseñas se guardan en la base como hash. Estos datos son para pruebas; no uses las cuentas de demostración en una instalación pública.
 
